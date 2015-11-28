@@ -8,7 +8,6 @@ import android.util.Log;
 
 import com.lfk.justweengine.Engine.Engine;
 import com.lfk.justweengine.Engine.GameTextPrinter;
-import com.lfk.justweengine.Engine.GameTexture;
 import com.lfk.justweengine.Engine.GameTimer;
 
 public class Game extends Engine {
@@ -16,14 +15,14 @@ public class Game extends Engine {
     Paint paint;
     Canvas canvas;
     GameTimer timer;
-    GameTexture texture;
+//    GameTexture texture;
 
     public Game() {
         super(false);
         Log.d("game", " constructor");
         paint = new Paint();
         canvas = null;
-        texture = null;
+//        texture = null;
         printer = new GameTextPrinter();
         printer.setTextColor(Color.WHITE);
         printer.setTextSize(24);
@@ -40,11 +39,11 @@ public class Game extends Engine {
 
     @Override
     public void load() {
-        Log.d("game", " load");
-        texture = new GameTexture(this);
-        if (!texture.loadFromAsset("pic/image806.png")) {
-            super.fatalError("error load pic");
-        }
+//        Log.d("game", " load");
+//        texture = new GameTexture(this);
+//        if (!texture.loadFromAsset("pic/image806.png")) {
+//            super.fatalError("error load pic");
+//        }
     }
 
 
@@ -56,7 +55,7 @@ public class Game extends Engine {
         canvas = super.getCanvas();
 
         //
-        canvas.drawBitmap(texture.getBitmap(), 10, 300, paint);
+//        canvas.drawBitmap(texture.getBitmap(), 10, 300, paint);
 
         printer.setCanvas(canvas);
         printer.drawText("First engine demo", 10, 20);
