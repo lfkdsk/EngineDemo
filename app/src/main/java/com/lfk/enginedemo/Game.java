@@ -19,8 +19,8 @@ public class Game extends Engine {
     GameTexture texture;
 
     public Game() {
+        super(false);
         Log.d("game", " constructor");
-//        super.setIsOpenDebug(true);
         paint = new Paint();
         canvas = null;
         texture = null;

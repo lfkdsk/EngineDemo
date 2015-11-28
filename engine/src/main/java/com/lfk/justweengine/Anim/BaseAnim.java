@@ -12,10 +12,13 @@ import android.renderscript.Float2;
 public class BaseAnim {
     // Is it running ?
     public boolean animating;
+    // anim type
+    public AnimType animType;
 
     // init
     public BaseAnim() {
         animating = false;
+        animType = AnimType.NULL;
     }
 
     public int adjustAlpha(int ori) {

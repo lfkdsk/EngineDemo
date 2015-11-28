@@ -54,6 +54,15 @@ public abstract class Engine extends Activity implements Runnable, View.OnTouchL
         Engine();
     }
 
+    public Engine(boolean isOpenDebug) {
+        if (!isOpenDebug) {
+            Logger.init().logLevel(LogLevel.NONE);
+        } else {
+            Logger.init();
+        }
+        Engine();
+    }
+
     private void Engine() {
         e_surfaceView = null;
         e_canvas = null;
@@ -474,11 +483,6 @@ public abstract class Engine extends Activity implements Runnable, View.OnTouchL
         }
         Logger.e("engine", " round D:" + 0);
         return 0;
-    }
-
-    public void setIsOpenDebug(boolean isOpenDebug) {
-        this.isOpenDebug = isOpenDebug;
-        Logger.init().logLevel(LogLevel.FULL);
     }
 
     /**
