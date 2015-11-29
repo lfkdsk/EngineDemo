@@ -12,7 +12,7 @@ public class AlphaAnimation extends BaseAnim {
     private int changeAlpha;
 
     public AlphaAnimation(int changeAlpha) {
-        this(0, 255, changeAlpha);
+        this(255, 0, changeAlpha);
     }
 
     public AlphaAnimation(int maxAlpha, int minAlpha, int changeAlpha) {

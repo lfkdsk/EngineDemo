@@ -11,6 +11,7 @@ import android.graphics.Point;
  *         Created by liufengkai on 15/11/27.
  */
 public class UIdefaultData {
+
     private static Context context;
 
     public static void init(Context context) {
