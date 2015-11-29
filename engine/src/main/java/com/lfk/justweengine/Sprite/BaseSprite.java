@@ -1,6 +1,9 @@
 package com.lfk.justweengine.Sprite;
 
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -36,7 +39,13 @@ public class BaseSprite {
     private Float2 s_scale;
     private float s_rotation;
     private HashMap<String, BaseAnim> animMap;
-    private LinkedList<BaseAnim> animlist;
+    private LinkedList<BaseAnim> animList;
+    private Matrix s_mat_translation;
+    private Matrix s_mat_scale;
+    private Matrix s_mat_rotate;
+    private Matrix s_matrix;
+    private Bitmap s_frameBitmap;
+    private Canvas s_frameCanvas;
 
     /**
      * easy init
@@ -71,9 +80,15 @@ public class BaseSprite {
         s_position = new Point(0, 0);
         s_frame = 0;
         animMap = new HashMap<>();
-        animlist = new LinkedList<>();
+        animList = new LinkedList<>();
         s_scale = new Float2(1.0f, 1.0f);
         s_rotation = 0.0f;
+        s_mat_translation = new Matrix();
+        s_mat_scale = new Matrix();
+        s_mat_rotate = new Matrix();
+        s_matrix = new Matrix();
+        s_frameBitmap = null;
+        s_frameCanvas = null;
         s_paint.setColor(UIdefaultData.sprite_default_color_paint);
     }
 
@@ -93,6 +108,13 @@ public class BaseSprite {
             s_height = s_texture.getBitmap().getHeight();
         }
 
+        // scratch bitmap
+        if (s_frameBitmap == null) {
+            s_frameBitmap = Bitmap.createBitmap(s_width, s_height, Bitmap.Config.ARGB_8888);
+            s_frameCanvas = new Canvas(s_frameBitmap);
+            s_frameCanvas.drawColor(Color.WHITE);
+        }
+
         // calculate w/h in each frame
         int u = (s_frame % s_columns) * s_width;
         int v = (s_frame / s_columns) * s_height;
@@ -110,7 +132,24 @@ public class BaseSprite {
 
         // draw the frame
         s_paint.setAlpha(s_alpha);
-        s_canvas.drawBitmap(s_texture.getBitmap(), src, dst, s_paint);
+        s_frameCanvas.drawBitmap(s_texture.getBitmap(), src, dst, s_paint);
+
+        // update transform
+        s_mat_scale = new Matrix();
+        s_mat_scale.setScale(s_scale.x, s_scale.y);
+
+        s_mat_rotate = new Matrix();
+        s_mat_rotate.setRotate((float) Math.toDegrees(s_rotation));
+
+        s_mat_translation = new Matrix();
+        s_mat_translation.setTranslate(s_position.x, s_position.y);
+
+        s_matrix = new Matrix(); //set to identity
+        s_matrix.postConcat(s_mat_scale);
+        s_matrix.postConcat(s_mat_rotate);
+        s_matrix.postConcat(s_mat_translation);
+
+        s_canvas.drawBitmap(s_frameBitmap, s_matrix, s_paint);
     }
 
     public void setPaint(Paint paint) {
@@ -187,13 +226,21 @@ public class BaseSprite {
         s_scale = new Float2(scale, scale);
     }
 
+    public float getRotation() {
+        return s_rotation;
+    }
+
+    public void setRotation(float s_rotation) {
+        this.s_rotation = s_rotation;
+    }
+
     /**
      * add anim to list
      *
      * @param anim
      */
     public void addAnimation(BaseAnim anim) {
-        animlist.add(anim);
+        animList.add(anim);
     }
 
     public void addfixedAnimation(String name, BaseAnim anim) {
@@ -229,18 +276,20 @@ public class BaseSprite {
         }
     }
 
+    /**
+     * list animation
+     */
     public void animation() {
-        if (animlist.isEmpty()) return;
-        ListIterator<BaseAnim> iterator = animlist.listIterator();
+        if (animList.isEmpty()) return;
+        ListIterator<BaseAnim> iterator = animList.listIterator();
         while (iterator.hasNext()) {
             BaseAnim anim = iterator.next();
             if (anim.animating) {
                 doAnimation(anim);
             } else {
-                animlist.remove(anim);
+                animList.remove(anim);
                 return;
             }
         }
     }
-
 }

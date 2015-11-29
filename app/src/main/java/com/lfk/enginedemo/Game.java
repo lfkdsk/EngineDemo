@@ -6,6 +6,7 @@ import android.graphics.Paint;
 import android.graphics.Point;
 
 import com.lfk.justweengine.Anim.CircleMoveAnimation;
+import com.lfk.justweengine.Anim.ThrobAnimation;
 import com.lfk.justweengine.Engine.Engine;
 import com.lfk.justweengine.Engine.GameTextPrinter;
 import com.lfk.justweengine.Engine.GameTexture;
@@ -49,8 +50,10 @@ public class Game extends Engine {
         sprite = new BaseSprite(this, 96, 96, 8);
         sprite.setTexture(texture);
         sprite.setPosition(100, 100);
-        sprite.addfixedAnimation("alpha", new CircleMoveAnimation(sprite.s_position.x
-                , sprite.s_position.y, 60, 0.0, 0.1f));
+        sprite.addAnimation(new ThrobAnimation(0.2f, 0.8f, 0.001f));
+
+        sprite.addAnimation(new CircleMoveAnimation(
+                300, 200, 200, 0, 0.05f));
     }
 
 
@@ -93,7 +96,17 @@ public class Game extends Engine {
 //                sprite.addfixedAnimation("alpha", new ThrobAnimation(0.5f, 3.0f, 0.01f));
 //            }
 //        }
-            sprite.fixedAnimation("alpha");
+            if (sprite.getAlpha() == 0) {
+                sprite.setAlpha(255);
+            }
+            sprite.animation();
+            //manually update rotation
+            float r = sprite.getRotation();
+            sprite.setRotation(r + 0.01f);
+            //manually reset scaling
+            if (sprite.getScale().x <= 0.2f)
+                sprite.addAnimation(new ThrobAnimation(0.2f, 0.8f, 0.001f));
+//            sprite.fixedAnimation("alpha");
         }
     }
 }

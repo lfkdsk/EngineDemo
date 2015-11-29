@@ -1,7 +1,10 @@
 package com.lfk.justweengine.Anim;
 
 /**
- * Created by liufengkai on 15/11/28.
+ * 动画类型
+ *
+ * @author liufengkai
+ *         Created by liufengkai on 15/11/28.
  */
 public enum AnimType {
     // anim with frame change
@@ -14,6 +17,8 @@ public enum AnimType {
     ROTATION,
 
     POSITION,
+
+    WRAPMOVE,
 
     NULL
 }
