@@ -3,14 +3,16 @@ package com.lfk.enginedemo;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-//import android.util.Log;
+import android.graphics.Point;
 
-import com.lfk.justweengine.Anim.AlphaAnimation;
+import com.lfk.justweengine.Anim.ThrobAnimation;
 import com.lfk.justweengine.Engine.Engine;
 import com.lfk.justweengine.Engine.GameTextPrinter;
 import com.lfk.justweengine.Engine.GameTexture;
 import com.lfk.justweengine.Engine.GameTimer;
 import com.lfk.justweengine.Sprite.BaseSprite;
+
+//import android.util.Log;
 
 public class Game extends Engine {
     GameTextPrinter printer;
@@ -47,7 +49,7 @@ public class Game extends Engine {
         sprite = new BaseSprite(this, 96, 96, 8);
         sprite.setTexture(texture);
         sprite.setPosition(100, 100);
-        sprite.addfixedAnimation("alpha", new AlphaAnimation(-1));
+        sprite.addfixedAnimation("alpha", new ThrobAnimation(0.5f, 3.0f, 0.01f));
     }
 
 
@@ -64,17 +66,17 @@ public class Game extends Engine {
 
         sprite.draw();
 
-//        if (super.getTouchPoints() > 0) {
-//            printer.drawText("Touch inputs: " + super.getTouchPoints());
-//            for (int i = 0; i < super.getTouchPoints(); i++) {
-//                printer.drawText(i + " :" + super.getTouchPoint(i).toString());
-//                Point p = super.getTouchPoint(i);
-////                Log.d("point :", "x:" + p.x + " y:" + p.y);
-//                if (p.x != 0 && p.y != 0) {
-//                    canvas.drawCircle(p.x, p.y, 50, paint);
-//                }
-//            }
-//        }
+        if (super.getTouchPoints() > 0) {
+            printer.drawText("Touch inputs: " + super.getTouchPoints());
+            for (int i = 0; i < super.getTouchPoints(); i++) {
+                printer.drawText(i + " :" + super.getTouchPoint(i).toString());
+                Point p = super.getTouchPoint(i);
+//                Log.d("point :", "x:" + p.x + " y:" + p.y);
+                if (p.x != 0 && p.y != 0) {
+                    canvas.drawCircle(p.x, p.y, 50, paint);
+                }
+            }
+        }
 
         if (timer.stopWatch(500)) {
             super.drawText("**TIMER**", super.getCanvas().getWidth() / 2, 20);
@@ -84,13 +86,13 @@ public class Game extends Engine {
     @Override
     public void update() {
 //        Log.d("engine", " update" + sprite.getAlpha());
-//        if (timer.stopWatch(20)) {
+        if (timer.stopWatch(20)) {
 
-        if (sprite.getAlpha() == 0) {
-            sprite.setAlpha(255);
-        }
+            if (sprite.getScale().x <= 0.5f) {
+                sprite.addfixedAnimation("alpha", new ThrobAnimation(0.5f, 3.0f, 0.01f));
+            }
 //        }
-        sprite.fixedAnimation("alpha");
-
+            sprite.fixedAnimation("alpha");
+        }
     }
 }
