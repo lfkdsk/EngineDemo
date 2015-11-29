@@ -37,7 +37,7 @@ public class BaseAnim {
         return ori;
     }
 
-    public Point adjustPoint(Point ori) {
+    public Point adjustPosition(Point ori) {
         return ori;
     }
 }

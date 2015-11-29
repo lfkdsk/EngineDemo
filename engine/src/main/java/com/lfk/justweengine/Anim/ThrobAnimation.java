@@ -16,25 +16,25 @@ public class ThrobAnimation extends BaseAnim {
         this.startScale = startScale;
         this.endScale = endScale;
         this.speed = speed;
+        animType = AnimType.SCALE;
         started = false;
         animating = true;
     }
 
     @Override
     public Float2 adjustScale(Float2 ori) {
-        Float2 modified = ori;
         if (!started) {
-            modified.x = startScale;
-            modified.y = endScale;
+            ori.x = startScale;
+            ori.y = endScale;
             started = true;
         }
-        modified.x += speed;
-        modified.y += speed;
-        if (modified.x >= endScale) {
+        ori.x += speed;
+        ori.y += speed;
+        if (ori.x >= endScale) {
             speed *= -1;
-        } else if (modified.x <= startScale) {
+        } else if (ori.x <= startScale) {
             animating = false;
         }
-        return modified;
+        return ori;
     }
 }

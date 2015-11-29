@@ -213,9 +213,7 @@ public class BaseSprite {
                 s_frame = anim.adjustFrame(s_frame);
                 break;
             case ALPHA:
-                Log.e("first_alpha", s_alpha + "");
                 s_alpha = anim.adjustAlpha(s_alpha);
-                Log.e("alpha", s_alpha + "");
                 break;
             case SCALE:
                 s_scale = anim.adjustScale(s_scale);
@@ -224,7 +222,9 @@ public class BaseSprite {
                 s_rotation = anim.adjustRotation(s_rotation);
                 break;
             case POSITION:
-                s_position = anim.adjustPoint(s_position);
+                Log.e("first_alpha", s_position + "");
+                s_position = anim.adjustPosition(s_position);
+                Log.e("alpha", s_position + "");
                 break;
         }
     }
