@@ -5,12 +5,12 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 
-import com.lfk.justweengine.Anim.CircleMoveAnimation;
-import com.lfk.justweengine.Anim.ThrobAnimation;
+import com.lfk.justweengine.Anim.FrameAnimation;
 import com.lfk.justweengine.Engine.Engine;
 import com.lfk.justweengine.Engine.GameTextPrinter;
 import com.lfk.justweengine.Engine.GameTexture;
 import com.lfk.justweengine.Engine.GameTimer;
+import com.lfk.justweengine.Info.UIdefaultData;
 import com.lfk.justweengine.Sprite.BaseSprite;
 
 //import android.util.Log;
@@ -41,6 +41,7 @@ public class Game extends Engine {
     public void init() {
 //        Log.d("game", "init");
         super.setScreenOrientation(ScreenMode.PORTRAIT);
+        UIdefaultData.init(this);
     }
 
     @Override
@@ -49,11 +50,21 @@ public class Game extends Engine {
         texture.loadFromAsset("pic/zombie_walk.png");
         sprite = new BaseSprite(this, 96, 96, 8);
         sprite.setTexture(texture);
-        sprite.setPosition(100, 100);
-        sprite.addAnimation(new ThrobAnimation(0.2f, 0.8f, 0.001f));
-
-        sprite.addAnimation(new CircleMoveAnimation(
-                300, 200, 200, 0, 0.05f));
+        sprite.setPosition(100, 300);
+//        sprite.addAnimation(new ThrobAnimation(0.3f, 0.9f, 0.01f));
+//        sprite.addAnimation(new CircleMoveAnimation(
+//                300, 200, 200, 0, 0.05f));
+        sprite.setDipScale(96, 96);
+        sprite.addAnimation(new FrameAnimation(0, 63, 1));
+//        sprite.setAfterAnimation(new DoAfterAnimation() {
+//            @Override
+//            public void afterAnimation() {
+//                if (sprite.getScale().x <= 0.2f)
+//                    sprite.addAnimation(new ThrobAnimation(0.2f, 0.8f, 0.01f));
+////                float r = sprite.getRotation();
+////                sprite.setRotation(r + 0.01f);
+//            }
+//        });
     }
 
 
@@ -68,14 +79,13 @@ public class Game extends Engine {
         printer.drawText("First engine demo", 10, 20);
 
 
-        sprite.draw();
+        sprite.drawWithFrame();
 
         if (super.getTouchPoints() > 0) {
             printer.drawText("Touch inputs: " + super.getTouchPoints());
             for (int i = 0; i < super.getTouchPoints(); i++) {
                 printer.drawText(i + " :" + super.getTouchPoint(i).toString());
                 Point p = super.getTouchPoint(i);
-//                Log.d("point :", "x:" + p.x + " y:" + p.y);
                 if (p.x != 0 && p.y != 0) {
                     canvas.drawCircle(p.x, p.y, 50, paint);
                 }
@@ -96,16 +106,15 @@ public class Game extends Engine {
 //                sprite.addfixedAnimation("alpha", new ThrobAnimation(0.5f, 3.0f, 0.01f));
 //            }
 //        }
-            if (sprite.getAlpha() == 0) {
-                sprite.setAlpha(255);
-            }
+//            if (sprite.getAlpha() == 0) {
+//                sprite.setAlpha(255);
+//            }
             sprite.animation();
-            //manually update rotation
-            float r = sprite.getRotation();
-            sprite.setRotation(r + 0.01f);
-            //manually reset scaling
-            if (sprite.getScale().x <= 0.2f)
-                sprite.addAnimation(new ThrobAnimation(0.2f, 0.8f, 0.001f));
+            // manually update rotation
+//            float r = sprite.getRotation();
+//            sprite.setRotation(r + 0.01f);
+//            // manually reset scaling
+
 //            sprite.fixedAnimation("alpha");
         }
     }

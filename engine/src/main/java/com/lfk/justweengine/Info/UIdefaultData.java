@@ -16,6 +16,7 @@ public class UIdefaultData {
 
     public static void init(Context context) {
         UIdefaultData.context = context;
+        scale = context.getResources().getDisplayMetrics().density;
     }
 
     public static final int sprite_default_color_paint = Color.WHITE;
@@ -24,7 +25,7 @@ public class UIdefaultData {
 
     public static int screenHeight;
 
+    public static float scale;
+
     public static Point centerHorizontal;
-
-
 }

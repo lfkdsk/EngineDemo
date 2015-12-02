@@ -103,7 +103,7 @@ public abstract class Engine extends Activity implements Runnable, View.OnTouchL
         // disable title bar
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         // default landscape
-        setScreenOrientation(ScreenMode.LANDSCAPE);
+//        setScreenOrientation(ScreenMode.LANDSCAPE);
 
         init();
 
@@ -314,7 +314,7 @@ public abstract class Engine extends Activity implements Runnable, View.OnTouchL
         int value;
 
         ScreenMode(int mode) {
-            this.value = value;
+            this.value = mode;
         }
     }
 
