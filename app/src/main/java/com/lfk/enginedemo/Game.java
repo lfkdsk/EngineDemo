@@ -4,8 +4,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.view.MotionEvent;
 
-import com.lfk.justweengine.Anim.FrameAnimation;
 import com.lfk.justweengine.Engine.Engine;
 import com.lfk.justweengine.Engine.GameTextPrinter;
 import com.lfk.justweengine.Engine.GameTexture;
@@ -47,15 +47,15 @@ public class Game extends Engine {
     @Override
     public void load() {
         GameTexture texture = new GameTexture(this);
-        texture.loadFromAsset("pic/zombie_walk.png");
-        sprite = new BaseSprite(this, 96, 96, 8);
+        texture.loadFromAssetStripFrame("pic/zombie_walk.png", 0, 128, 128, 128);
+        sprite = new BaseSprite(this);
         sprite.setTexture(texture);
         sprite.setPosition(100, 300);
 //        sprite.addAnimation(new ThrobAnimation(0.3f, 0.9f, 0.01f));
 //        sprite.addAnimation(new CircleMoveAnimation(
 //                300, 200, 200, 0, 0.05f));
-        sprite.setDipScale(96, 96);
-        sprite.addAnimation(new FrameAnimation(0, 63, 1));
+        sprite.setDipScale(128, 128);
+//        sprite.addAnimation(new FrameAnimation(0, 63, 1));
 //        sprite.setAfterAnimation(new DoAfterAnimation() {
 //            @Override
 //            public void afterAnimation() {
@@ -117,5 +117,10 @@ public class Game extends Engine {
 
 //            sprite.fixedAnimation("alpha");
         }
+    }
+
+    @Override
+    public void touch(MotionEvent event) {
+
     }
 }

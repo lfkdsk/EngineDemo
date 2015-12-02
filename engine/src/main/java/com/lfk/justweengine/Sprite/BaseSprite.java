@@ -304,6 +304,10 @@ public class BaseSprite {
     }
 
     public void setDipScale(int dipWidth, int dipHeight) {
+        if (s_width == 0 || s_height == 0) {
+            s_width = s_texture.getBitmap().getWidth();
+            s_height = s_texture.getBitmap().getHeight();
+        }
         setScale(new Float2(DisplayUtils.dip2px(dipWidth) / s_width,
                 DisplayUtils.dip2px(dipHeight) / s_height));
     }

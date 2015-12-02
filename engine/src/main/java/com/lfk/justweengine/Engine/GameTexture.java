@@ -44,4 +44,33 @@ public class GameTexture {
         }
         return true;
     }
+
+    /**
+     * get bitmap from a big bitmap
+     *
+     * @param filename
+     * @param x
+     * @param y
+     * @param width
+     * @param height
+     * @return
+     */
+    public boolean loadFromAssetStripFrame(String filename,
+                                           int x, int y,
+                                           int width, int height) {
+        InputStream inputStream;
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inPreferredConfig = Bitmap.Config.ARGB_8888;
+        try {
+            inputStream = e_context.getAssets().open(filename);
+            Bitmap temp = BitmapFactory.decodeStream(inputStream, null, options).copy(Bitmap.Config.ARGB_8888, true);
+            inputStream.close();
+            e_bitmap = Bitmap.createBitmap(temp, x, y, width, height);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
 }

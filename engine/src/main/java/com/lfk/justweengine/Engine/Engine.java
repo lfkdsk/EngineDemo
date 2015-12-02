@@ -44,6 +44,7 @@ public abstract class Engine extends Activity implements Runnable, View.OnTouchL
     private int e_backgroundColor;
     private boolean e_isFrameOpen;
     private boolean isOpenDebug = false;
+    private TouchMode e_touch_Mode;
 
     /**
      * engine constructor
@@ -79,6 +80,7 @@ public abstract class Engine extends Activity implements Runnable, View.OnTouchL
         e_touchModesAble = true;
         e_touchNum = 5;
         e_isFrameOpen = true;
+        e_touch_Mode = TouchMode.SINGLE;
         e_backgroundColor = Color.BLACK;
         Logger.d("Engine constructor");
     }
@@ -90,6 +92,8 @@ public abstract class Engine extends Activity implements Runnable, View.OnTouchL
     public abstract void draw();
 
     public abstract void update();
+
+    public abstract void touch(MotionEvent event);
 
     /**
      * engine onCreate
@@ -174,15 +178,19 @@ public abstract class Engine extends Activity implements Runnable, View.OnTouchL
      */
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        e_numPoints = event.getPointerCount();
-        if (e_numPoints > e_touchNum) {
-            e_numPoints = e_touchNum;
-        }
+        if (e_touch_Mode == TouchMode.SINGLE) {
+            touch(event);
+        } else if (e_touch_Mode == TouchMode.FULL) {
+            e_numPoints = event.getPointerCount();
+            if (e_numPoints > e_touchNum) {
+                e_numPoints = e_touchNum;
+            }
 
-        for (int n = 0; n < e_numPoints; n++) {
-            Logger.v("engine", e_touchNum + ":" + e_numPoints);
-            e_touchPoints[n].x = (int) event.getX(n);
-            e_touchPoints[n].y = (int) event.getY(n);
+            for (int n = 0; n < e_numPoints; n++) {
+                Logger.v("engine", e_touchNum + ":" + e_numPoints);
+                e_touchPoints[n].x = (int) event.getX(n);
+                e_touchPoints[n].y = (int) event.getY(n);
+            }
         }
         return true;
     }
