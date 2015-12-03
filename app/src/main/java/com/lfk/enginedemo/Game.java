@@ -4,9 +4,11 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.renderscript.Float2;
 import android.view.MotionEvent;
 
 import com.lfk.justweengine.Anim.FrameAnimation;
+import com.lfk.justweengine.Anim.MoveAnimation;
 import com.lfk.justweengine.Drawable.Button.TextureButton;
 import com.lfk.justweengine.Engine.Engine;
 import com.lfk.justweengine.Engine.GameTextPrinter;
@@ -54,12 +56,13 @@ public class Game extends Engine {
         texture.loadFromAsset("pic/zombie_walk.png");
         sprite = new BaseSprite(this, 96, 96, 8);
         sprite.setTexture(texture);
-        sprite.setPosition(100, 300);
+        sprite.setPosition(100, 100);
 //        sprite.addAnimation(new ThrobAnimation(0.3f, 0.9f, 0.01f));
 //        sprite.addAnimation(new CircleMoveAnimation(
 //                300, 200, 200, 0, 0.05f));
         sprite.setDipScale(128, 128);
         sprite.addAnimation(new FrameAnimation(0, 63, 1));
+        sprite.addAnimation(new MoveAnimation(200, 1000, new Float2(1, 1)));
 //        sprite.setAfterAnimation(new DoAfterAnimation() {
 //            @Override
 //            public void afterAnimation() {

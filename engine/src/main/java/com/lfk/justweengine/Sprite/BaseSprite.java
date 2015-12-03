@@ -13,7 +13,6 @@ import com.lfk.justweengine.Engine.GameTexture;
 import com.lfk.justweengine.Info.UIdefaultData;
 import com.lfk.justweengine.Utils.tools.DisplayUtils;
 
-import java.util.ListIterator;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -252,7 +251,7 @@ public class BaseSprite {
     public void fixedAnimation(String name) {
         if (animMap.isEmpty()) return;
         BaseAnim anim = animMap.get(name);
-        anim.animating = true;
+//        anim.animating = true;
         doAnimation(anim);
     }
 
@@ -283,9 +282,7 @@ public class BaseSprite {
      */
     public void animation() {
         if (animList.isEmpty()) return;
-        ListIterator<BaseAnim> iterator = animList.listIterator();
-        while (iterator.hasNext()) {
-            BaseAnim anim = iterator.next();
+        for (BaseAnim anim : animList) {
             if (anim.animating) {
                 doAnimation(anim);
             } else {

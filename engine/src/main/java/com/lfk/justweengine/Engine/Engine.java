@@ -99,6 +99,8 @@ public abstract class Engine extends Activity implements Runnable, View.OnTouchL
 
     public abstract void touch(MotionEvent event);
 
+    public abstract void collision(BaseSprite sprite);
+
     /**
      * engine onCreate
      *
