@@ -6,10 +6,12 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.renderscript.Float2;
 import android.renderscript.Float3;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.View;
@@ -231,8 +233,35 @@ public abstract class Engine extends Activity implements Runnable, View.OnTouchL
 
             update();
 
-            for (BaseSub baseSub : e_sprite_group) {
+            for (BaseSub A : e_sprite_group) {
+//                e_sprite_group.size();
+                Log.e(A.getBounds().centerX() + "a", A.getBounds().centerY() + "a" + "size:" + e_sprite_group.size());
+                if (!A.isCollidable()) continue;
 
+                if (A.isCollided()) continue;
+
+                for (BaseSub B : e_sprite_group) {
+                    Log.e(A.getBounds().centerX() + "a", B.getBounds().centerX() + "b");
+
+                    if (!B.isCollidable()) continue;
+
+                    if (B.isCollided()) continue;
+
+                    if (A == B) continue;
+
+                    if (A.getIdentifier() ==
+                            B.getIdentifier())
+                        continue;
+
+                    if (collisionCheck(A, B)) {
+                        A.setCollided(true);
+                        A.setOffender(B);
+                        B.setCollided(true);
+                        B.setOffender(A);
+                        Log.e(A.getBounds().centerX() + "", "");
+                        break;
+                    }
+                }
             }
 
             // lock canvas
@@ -242,6 +271,12 @@ public abstract class Engine extends Activity implements Runnable, View.OnTouchL
                 for (BaseSub baseSub : e_sprite_group) {
                     baseSub.animation();
                     baseSub.drawWithFrame();
+
+                    if (baseSub.isCollidable() && baseSub.isCollided()) {
+                        e_paintDraw.setColor(Color.RED);
+                        e_paintDraw.setStyle(Paint.Style.STROKE);
+                        e_canvas.drawRect(baseSub.getBounds(), e_paintDraw);
+                    }
                 }
 
                 // draw
@@ -505,6 +540,11 @@ public abstract class Engine extends Activity implements Runnable, View.OnTouchL
         }
         Logger.e("engine", " round D:" + 0);
         return 0;
+    }
+
+    private boolean collisionCheck(BaseSub A, BaseSub B) {
+        Log.e(A.getBounds().centerX() + "", A.getBounds().centerX() + "");
+        return Rect.intersects(A.getBounds(), B.getBounds());
     }
 
     /**

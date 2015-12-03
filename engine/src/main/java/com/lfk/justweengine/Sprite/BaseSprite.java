@@ -29,7 +29,7 @@ public class BaseSprite extends BaseSub {
     private String s_name;
     // 是否可碰撞 / 是否检测过
     private boolean s_collidable, s_collided;
-    private BaseSprite e_offender;
+    private BaseSub e_offender;
     private int e_identifier;
     // 传入的engine
     private Engine s_engine;
@@ -102,6 +102,8 @@ public class BaseSprite extends BaseSub {
         animList = new CopyOnWriteArrayList<>();
         s_scale = new Float2(1.0f, 1.0f);
         s_rotation = 0.0f;
+        s_collidable = true;
+        s_collided = false;
 //        s_dst = new Rect();
 //        s_mat_translation = new Matrix();
 //        s_mat_scale = new Matrix();
@@ -273,19 +275,38 @@ public class BaseSprite extends BaseSub {
         this.s_collided = s_collided;
     }
 
-    public BaseSprite getOffender() {
+    public BaseSub getOffender() {
         return e_offender;
     }
 
-    public void setOffender(BaseSprite e_offender) {
+    @Override
+    public void setOffender(BaseSub e_offender) {
         this.e_offender = e_offender;
     }
 
     public Rect getBounds() {
         // scaled
-        return s_dst;
+        return new Rect(s_position.x, s_position.y,
+                s_position.x + (int) (s_width * s_scale.x),
+                s_position.y + (int) (s_height * s_scale.y));
     }
 
+    @Override
+    public int getIdentifier() {
+        return e_identifier;
+    }
+
+    public void setIdentifier(int e_identifier) {
+        this.e_identifier = e_identifier;
+    }
+
+    public String getName() {
+        return s_name;
+    }
+
+    public void setName(String s_name) {
+        this.s_name = s_name;
+    }
 
     /**
      * add anim to list

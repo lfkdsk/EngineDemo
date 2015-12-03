@@ -24,7 +24,7 @@ public class Game extends Engine {
     Canvas canvas;
     GameTimer timer;
     //    GameTexture texture;
-    BaseSprite sprite;
+    BaseSprite sprite, sprite2;
     TextureButton button;
     float startX, startY, offsetX, offsetY;
 
@@ -54,14 +54,22 @@ public class Game extends Engine {
         GameTexture texture = new GameTexture(this);
         texture.loadFromAsset("pic/zombie_walk.png");
         sprite = new BaseSprite(this, 96, 96, 8);
+        sprite2 = new BaseSprite(this, 96, 96, 8);
+
         sprite.setTexture(texture);
+        sprite2.setTexture(texture);
+
         sprite.setPosition(100, 100);
+        sprite.setPosition(200, 200);
 //        sprite.addAnimation(new ThrobAnimation(0.3f, 0.9f, 0.01f));
 //        sprite.addAnimation(new CircleMoveAnimation(
 //                300, 200, 200, 0, 0.05f));
         sprite.setDipScale(128, 128);
+        sprite2.setDipScale(128, 128);
         sprite.addAnimation(new FrameAnimation(0, 63, 1));
         sprite.addAnimation(new MoveAnimation(200, 1000, new Float2(1, 1)));
+        sprite2.addAnimation(new FrameAnimation(0, 63, 1));
+        sprite2.addAnimation(new MoveAnimation(200, 1000, new Float2(1, 1)));
 //        sprite.setAfterAnimation(new DoAfterAnimation() {
 //            @Override
 //            public void afterAnimation() {
@@ -71,7 +79,12 @@ public class Game extends Engine {
 ////                sprite.setRotation(r + 0.01f);
 //            }
 //        });
+        sprite.setName("1");
+        sprite2.setName("2");
+        sprite.setIdentifier(100);
+        sprite.setIdentifier(10);
         addToSpriteGroup(sprite);
+        addToSpriteGroup(sprite2);
     }
 
 

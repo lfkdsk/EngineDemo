@@ -2,8 +2,6 @@ package com.lfk.justweengine.Engine;
 
 import android.graphics.Rect;
 
-import com.lfk.justweengine.Sprite.BaseSprite;
-
 /**
  * Created by liufengkai on 15/12/4.
  */
@@ -23,7 +21,9 @@ public abstract class BaseSub {
 
     public abstract BaseSub getOffender();
 
-    public abstract void setOffender(BaseSprite e_offender);
+    public abstract void setOffender(BaseSub e_offender);
 
     public abstract Rect getBounds();
+
+    public abstract int getIdentifier();
 }

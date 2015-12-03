@@ -24,12 +24,18 @@ public class MoveAnimation extends BaseAnim {
     @Override
     public Point adjustPosition(Point ori) {
         if (ori.x != toX) {
-            ori.x += velocity.x;
+            if (ori.x > toX)
+                ori.x -= velocity.x;
+            else
+                ori.x += velocity.x;
         } else if (ori.y == toY) {
             animating = false;
         }
         if (ori.y != toY) {
-            ori.y += velocity.y;
+            if (ori.y > toY)
+                ori.y -= velocity.y;
+            else
+                ori.y += velocity.y;
         } else if (ori.x == toX) {
             animating = false;
         }
