@@ -47,7 +47,7 @@ public abstract class Engine extends Activity implements Runnable, View.OnTouchL
     private boolean e_isFrameOpen;
     //    private boolean isOpenDebug = false;
     private TouchMode e_touch_Mode;
-    private CopyOnWriteArrayList<BaseSprite> e_sprite_group;
+    private CopyOnWriteArrayList<BaseSub> e_sprite_group;
 
     /**
      * engine constructor
@@ -205,7 +205,6 @@ public abstract class Engine extends Activity implements Runnable, View.OnTouchL
     public void run() {
         Logger.d("engine run start");
         GameTimer frameTimer = new GameTimer();
-
         int frameCount = 0;
         int frameRate = 0;
         long startTime;
@@ -232,13 +231,17 @@ public abstract class Engine extends Activity implements Runnable, View.OnTouchL
 
             update();
 
+            for (BaseSub baseSub : e_sprite_group) {
+
+            }
+
             // lock canvas
             if (beginDrawing()) {
                 e_canvas.drawColor(e_backgroundColor);
 
-                for (BaseSprite baseSprite : e_sprite_group) {
-                    baseSprite.animation();
-                    baseSprite.drawWithFrame();
+                for (BaseSub baseSub : e_sprite_group) {
+                    baseSub.animation();
+                    baseSub.drawWithFrame();
                 }
 
                 // draw

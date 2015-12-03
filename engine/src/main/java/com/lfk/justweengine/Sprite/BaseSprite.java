@@ -8,6 +8,7 @@ import android.renderscript.Float2;
 
 import com.lfk.justweengine.Anim.BaseAnim;
 import com.lfk.justweengine.Anim.DoAfterAnimation;
+import com.lfk.justweengine.Engine.BaseSub;
 import com.lfk.justweengine.Engine.Engine;
 import com.lfk.justweengine.Engine.GameTexture;
 import com.lfk.justweengine.Info.UIdefaultData;
@@ -23,7 +24,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * @author liufengkai
  *         Created by liufengkai on 15/11/27.
  */
-public class BaseSprite {
+public class BaseSprite extends BaseSub {
     // 名称
     private String s_name;
     // 是否可碰撞 / 是否检测过
