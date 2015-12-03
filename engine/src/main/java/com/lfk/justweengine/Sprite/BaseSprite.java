@@ -61,6 +61,7 @@ public class BaseSprite {
 //    private Matrix s_matrix;
 //    private Bitmap s_frameBitmap;
 //    private Canvas s_frameCanvas;
+    private Rect s_dst;
     // 动画结束的回调
     private DoAfterAnimation afterAnimation = null;
 
@@ -100,6 +101,7 @@ public class BaseSprite {
         animList = new CopyOnWriteArrayList<>();
         s_scale = new Float2(1.0f, 1.0f);
         s_rotation = 0.0f;
+//        s_dst = new Rect();
 //        s_mat_translation = new Matrix();
 //        s_mat_scale = new Matrix();
 //        s_mat_rotate = new Matrix();
@@ -144,11 +146,11 @@ public class BaseSprite {
         int w = (int) (s_width * s_scale.x);
         int h = (int) (s_height * s_scale.y);
 
-        Rect dst = new Rect(x, y, x + w, y + h);
+        s_dst = new Rect(x, y, x + w, y + h);
 
         // draw the frame
         s_paint.setAlpha(s_alpha);
-        s_canvas.drawBitmap(s_texture.getBitmap(), src, dst, s_paint);
+        s_canvas.drawBitmap(s_texture.getBitmap(), src, s_dst, s_paint);
 
         // update transform
 //        s_mat_scale = new Matrix();
@@ -254,6 +256,36 @@ public class BaseSprite {
         this.s_rotation = s_rotation;
     }
 
+    public boolean isCollidable() {
+        return s_collidable;
+    }
+
+    public boolean isCollided() {
+        return s_collided;
+    }
+
+    public void setCollidable(boolean s_collidable) {
+        this.s_collidable = s_collidable;
+    }
+
+    public void setCollided(boolean s_collided) {
+        this.s_collided = s_collided;
+    }
+
+    public BaseSprite getOffender() {
+        return e_offender;
+    }
+
+    public void setOffender(BaseSprite e_offender) {
+        this.e_offender = e_offender;
+    }
+
+    public Rect getBounds() {
+        // scaled
+        return s_dst;
+    }
+
+
     /**
      * add anim to list
      *
@@ -311,6 +343,11 @@ public class BaseSprite {
         }
     }
 
+    /**
+     * 设定放大值,相当于设置dp宽高
+     *
+     * @param dp
+     */
     public void setDipWidth(int dp) {
         s_scale.x = DisplayUtils.dip2px(dp) / s_width;
     }
@@ -328,6 +365,11 @@ public class BaseSprite {
                 DisplayUtils.dip2px(dipHeight) / s_height));
     }
 
+    /**
+     * 动画后的接口回调
+     *
+     * @param afterAnimation
+     */
     public void setAfterAnimation(DoAfterAnimation afterAnimation) {
         this.afterAnimation = afterAnimation;
     }

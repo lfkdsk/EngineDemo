@@ -3,7 +3,6 @@ package com.lfk.enginedemo;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Point;
 import android.renderscript.Float2;
 import android.view.MotionEvent;
 
@@ -84,21 +83,21 @@ public class Game extends Engine {
         canvas = super.getCanvas();
 
         printer.setCanvas(canvas);
-        printer.drawText("First engine demo", 10, 20);
+        printer.drawText("Engine demo", 10, 20);
 
 
 //        sprite.drawWithFrame();
 
-        if (super.getTouchPoints() > 0) {
-            printer.drawText("Touch inputs: " + super.getTouchPoints());
-            for (int i = 0; i < super.getTouchPoints(); i++) {
-                printer.drawText(i + " :" + super.getTouchPoint(i).toString());
-                Point p = super.getTouchPoint(i);
-                if (p.x != 0 && p.y != 0) {
-                    canvas.drawCircle(p.x, p.y, 50, paint);
-                }
-            }
-        }
+//        if (super.getTouchPoints() > 0) {
+//            printer.drawText("Touch inputs: " + super.getTouchPoints());
+//            for (int i = 0; i < super.getTouchPoints(); i++) {
+//                printer.drawText(i + " :" + super.getTouchPoint(i).toString());
+//                Point p = super.getTouchPoint(i);
+//                if (p.x != 0 && p.y != 0) {
+//                    canvas.drawCircle(p.x, p.y, 50, paint);
+//                }
+//            }
+//        }
 
         if (timer.stopWatch(500)) {
             super.drawText("**TIMER**", super.getCanvas().getWidth() / 2, 20);
@@ -153,6 +152,11 @@ public class Game extends Engine {
                 startY = (int) event.getY();
                 break;
         }
+    }
+
+    @Override
+    public void collision(BaseSprite sprite) {
+
     }
 
     private void restartEvent(MotionEvent event) {
