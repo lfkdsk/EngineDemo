@@ -24,18 +24,36 @@ import java.util.concurrent.CopyOnWriteArrayList;
  *         Created by liufengkai on 15/11/27.
  */
 public class BaseSprite {
+    // 名称
+    private String s_name;
+    // 是否可碰撞 / 是否检测过
+    private boolean s_collidable, s_collided;
+    private BaseSprite e_offender;
+    private int e_identifier;
+    // 传入的engine
     private Engine s_engine;
     private Canvas s_canvas;
+    // 图片
     private GameTexture s_texture;
+    // 画笔
     private Paint s_paint;
+    // 位置 以左上角为准
     public Point s_position;
+    // 宽度高度
     private int s_width, s_height;
+    // 帧动画的列
     private int s_columns;
+    // 透明度
     private int s_alpha;
+    // 帧数
     private int s_frame;
+    // 缩放
     private Float2 s_scale;
+    // 旋转
     private float s_rotation;
+    // 固定动画
     private ConcurrentHashMap<String, BaseAnim> animMap;
+    // 流式动画
     private CopyOnWriteArrayList<BaseAnim> animList;
     //    private Matrix s_mat_translation;
 //    private Matrix s_mat_scale;
@@ -43,6 +61,7 @@ public class BaseSprite {
 //    private Matrix s_matrix;
 //    private Bitmap s_frameBitmap;
 //    private Canvas s_frameCanvas;
+    // 动画结束的回调
     private DoAfterAnimation afterAnimation = null;
 
     /**
