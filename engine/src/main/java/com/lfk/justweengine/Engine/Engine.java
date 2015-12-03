@@ -15,10 +15,12 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.Window;
 
+import com.lfk.justweengine.Sprite.BaseSprite;
 import com.lfk.justweengine.Utils.logger.LogLevel;
 import com.lfk.justweengine.Utils.logger.Logger;
 
 import java.math.BigDecimal;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 
 /**
@@ -43,8 +45,9 @@ public abstract class Engine extends Activity implements Runnable, View.OnTouchL
     private int e_touchNum;
     private int e_backgroundColor;
     private boolean e_isFrameOpen;
-    private boolean isOpenDebug = false;
+    //    private boolean isOpenDebug = false;
     private TouchMode e_touch_Mode;
+    private CopyOnWriteArrayList<BaseSprite> e_sprite_group;
 
     /**
      * engine constructor
@@ -82,6 +85,7 @@ public abstract class Engine extends Activity implements Runnable, View.OnTouchL
         e_isFrameOpen = true;
         e_touch_Mode = TouchMode.SINGLE;
         e_backgroundColor = Color.BLACK;
+        e_sprite_group = new CopyOnWriteArrayList<>();
         Logger.d("Engine constructor");
     }
 
@@ -121,12 +125,12 @@ public abstract class Engine extends Activity implements Runnable, View.OnTouchL
         e_surfaceView.setOnTouchListener(this);
 
         // init touch mode
-        if (e_touchModesAble) {
-            e_touchPoints = new Point[e_touchNum];
-            for (int i = 0; i < e_touchNum; i++) {
-                e_touchPoints[i] = new Point(0, 0);
-            }
-        }
+//        if (e_touchModesAble) {
+//            e_touchPoints = new Point[e_touchNum];
+//            for (int i = 0; i < e_touchNum; i++) {
+//                e_touchPoints[i] = new Point(0, 0);
+//            }
+//        }
 
         // draw paint
         e_paintDraw = new Paint();
@@ -229,6 +233,11 @@ public abstract class Engine extends Activity implements Runnable, View.OnTouchL
             // lock canvas
             if (beginDrawing()) {
                 e_canvas.drawColor(e_backgroundColor);
+
+                for (BaseSprite baseSprite : e_sprite_group) {
+                    baseSprite.animation();
+                    baseSprite.drawWithFrame();
+                }
 
                 // draw
                 draw();
@@ -518,5 +527,17 @@ public abstract class Engine extends Activity implements Runnable, View.OnTouchL
     public String toString(Float3 value) {
         return "X:" + round(value.x) + "," + "Y:" + round(value.y)
                 + "Z:" + round(value.z);
+    }
+
+    protected void addToSpriteGroup(BaseSprite sprite) {
+        e_sprite_group.add(sprite);
+    }
+
+    protected void removeFromSpirtGroup(BaseSprite sprite) {
+        e_sprite_group.remove(sprite);
+    }
+
+    protected void removeFromSpirtGroup(int index) {
+        e_sprite_group.remove(index);
     }
 }

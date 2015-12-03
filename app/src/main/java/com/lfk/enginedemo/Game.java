@@ -6,6 +6,8 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.view.MotionEvent;
 
+import com.lfk.justweengine.Anim.FrameAnimation;
+import com.lfk.justweengine.Drawable.Button.TextureButton;
 import com.lfk.justweengine.Engine.Engine;
 import com.lfk.justweengine.Engine.GameTextPrinter;
 import com.lfk.justweengine.Engine.GameTexture;
@@ -22,6 +24,8 @@ public class Game extends Engine {
     GameTimer timer;
     //    GameTexture texture;
     BaseSprite sprite;
+    TextureButton button;
+    float startX, startY, offsetX, offsetY;
 
     public Game() {
         super(false);
@@ -34,7 +38,7 @@ public class Game extends Engine {
         printer.setTextSize(24);
         printer.setLineSpaceing(28);
         timer = new GameTimer();
-        setTouchNum(5);
+//        setTouchNum(5);
     }
 
     @Override
@@ -47,15 +51,15 @@ public class Game extends Engine {
     @Override
     public void load() {
         GameTexture texture = new GameTexture(this);
-        texture.loadFromAssetStripFrame("pic/zombie_walk.png", 0, 128, 128, 128);
-        sprite = new BaseSprite(this);
+        texture.loadFromAsset("pic/zombie_walk.png");
+        sprite = new BaseSprite(this, 96, 96, 8);
         sprite.setTexture(texture);
         sprite.setPosition(100, 300);
 //        sprite.addAnimation(new ThrobAnimation(0.3f, 0.9f, 0.01f));
 //        sprite.addAnimation(new CircleMoveAnimation(
 //                300, 200, 200, 0, 0.05f));
         sprite.setDipScale(128, 128);
-//        sprite.addAnimation(new FrameAnimation(0, 63, 1));
+        sprite.addAnimation(new FrameAnimation(0, 63, 1));
 //        sprite.setAfterAnimation(new DoAfterAnimation() {
 //            @Override
 //            public void afterAnimation() {
@@ -65,6 +69,7 @@ public class Game extends Engine {
 ////                sprite.setRotation(r + 0.01f);
 //            }
 //        });
+        addToSpriteGroup(sprite);
     }
 
 
@@ -79,7 +84,7 @@ public class Game extends Engine {
         printer.drawText("First engine demo", 10, 20);
 
 
-        sprite.drawWithFrame();
+//        sprite.drawWithFrame();
 
         if (super.getTouchPoints() > 0) {
             printer.drawText("Touch inputs: " + super.getTouchPoints());
@@ -109,7 +114,7 @@ public class Game extends Engine {
 //            if (sprite.getAlpha() == 0) {
 //                sprite.setAlpha(255);
 //            }
-            sprite.animation();
+//            sprite.animation();
             // manually update rotation
 //            float r = sprite.getRotation();
 //            sprite.setRotation(r + 0.01f);
@@ -121,6 +126,34 @@ public class Game extends Engine {
 
     @Override
     public void touch(MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_MOVE:
+                offsetX = event.getX() - startX;
+                offsetY = event.getY() - startY;
+                if (Math.abs(offsetX) > Math.abs(offsetY)) {
+                    if (sprite.s_position.x + offsetX > 0
+                            && sprite.s_position.x + offsetX + sprite.getWidth() < UIdefaultData.screenWidth) {
+                        sprite.s_position.x += offsetX;
+                        restartEvent(event);
+                    }
+                } else {
+                    if (sprite.s_position.y + offsetY > 0
+                            && sprite.s_position.y + offsetY + sprite.getHeight() < UIdefaultData.screenHeight) {
+//                        Log.e("position h:" + sprite.s_position.y, "h" + sprite.getHeight());
+                        sprite.s_position.y += offsetY;
+                        restartEvent(event);
+                    }
+                }
+                break;
+            case MotionEvent.ACTION_DOWN:
+                startX = (int) event.getX();
+                startY = (int) event.getY();
+                break;
+        }
+    }
 
+    private void restartEvent(MotionEvent event) {
+        startX = (int) event.getX();
+        startY = (int) event.getY();
     }
 }

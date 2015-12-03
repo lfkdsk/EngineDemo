@@ -9,31 +9,35 @@ import com.lfk.justweengine.Engine.Engine;
 import com.lfk.justweengine.Engine.GameTexture;
 
 /**
- * Created by liufengkai on 15/12/2.
+ * 图片Button
+ *
+ * @author liufengkai
+ *         Created by liufengkai on 15/12/2.
  */
 public class TextureButton extends BaseButton {
     private GameTexture texture;
     private Float2 b_scale;
     private BaseAnim b_baseAnim;
+    private int b_alpha;
 
     public TextureButton(Engine b_engine) {
         super(b_engine);
-        this.b_engine = b_engine;
+        init();
     }
 
 
     public TextureButton(Engine b_engine, int b_width, int b_height) {
         super(b_engine, b_width, b_height);
-
+        init();
     }
 
-    public void setPosition(Point b_position) {
-        this.b_position = b_position;
-    }
+    private void init() {
+        b_alpha = 255;
+        b_canvas = null;
+        texture = new GameTexture(b_engine);
+        b_position = new Point(0, 0);
+        b_scale = new Float2(1.0f, 1.0f);
 
-    public void setPosition(int x, int y) {
-        b_position.x = x;
-        b_position.y = y;
     }
 
     @Override
@@ -60,5 +64,14 @@ public class TextureButton extends BaseButton {
     @Override
     public void animation() {
 
+    }
+
+    public void setPosition(Point b_position) {
+        this.b_position = b_position;
+    }
+
+    public void setPosition(int x, int y) {
+        b_position.x = x;
+        b_position.y = y;
     }
 }

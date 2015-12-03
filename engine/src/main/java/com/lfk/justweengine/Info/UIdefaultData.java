@@ -3,6 +3,7 @@ package com.lfk.justweengine.Info;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Point;
+import android.util.Log;
 
 /**
  * UI 默认数据类 待修改
@@ -17,6 +18,9 @@ public class UIdefaultData {
     public static void init(Context context) {
         UIdefaultData.context = context;
         scale = context.getResources().getDisplayMetrics().density;
+        screenWidth = context.getResources().getDisplayMetrics().widthPixels;
+        screenHeight = context.getResources().getDisplayMetrics().heightPixels;
+        Log.e("h" + screenHeight, "w" + screenWidth);
     }
 
     public static final int sprite_default_color_paint = Color.WHITE;
