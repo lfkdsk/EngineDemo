@@ -1,6 +1,5 @@
 package com.lfk.justweengine.Anim;
 
-import android.graphics.Point;
 import android.renderscript.Float2;
 
 /**
@@ -37,7 +36,7 @@ public class BaseAnim {
         return ori;
     }
 
-    public Point adjustPosition(Point ori) {
+    public Float2 adjustPosition(Float2 ori) {
         return ori;
     }
 }

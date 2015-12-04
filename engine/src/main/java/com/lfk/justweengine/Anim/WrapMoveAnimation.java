@@ -21,7 +21,7 @@ public class WrapMoveAnimation extends BaseAnim {
     }
 
     @Override
-    public Point adjustPosition(Point ori) {
+    public Float2 adjustPosition(Float2 ori) {
         ori.x += velocity.x;
         ori.y += velocity.y;
 

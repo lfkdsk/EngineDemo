@@ -1,6 +1,7 @@
 package com.lfk.justweengine.Anim;
 
 import android.graphics.Point;
+import android.renderscript.Float2;
 
 /**
  * Created by liufengkai on 15/11/29.
@@ -23,7 +24,7 @@ public class CircleMoveAnimation extends BaseAnim {
     }
 
     @Override
-    public Point adjustPosition(Point ori) {
+    public Float2 adjustPosition(Float2 ori) {
         angle += velocity;
         ori.x = (int) (center.x + (float) (Math.cos(angle) * radius));
         ori.y = (int) (center.y + (float) (Math.sin(angle) * radius));

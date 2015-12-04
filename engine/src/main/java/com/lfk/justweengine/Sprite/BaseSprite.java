@@ -42,7 +42,7 @@ public class BaseSprite extends BaseSub {
     // 画笔
     private Paint s_paint;
     // 位置 以左上角为准
-    public Point s_position;
+    public Float2 s_position;
     // 宽度高度
     private int s_width, s_height;
     // 帧动画的列
@@ -110,7 +110,7 @@ public class BaseSprite extends BaseSub {
         s_canvas = null;
         s_texture = new GameTexture(s_engine);
         s_paint = new Paint();
-        s_position = new Point(0, 0);
+        s_position = new Float2(0, 0);
         s_frame = 0;
         animMap = new ConcurrentHashMap<>();
         animList = new CopyOnWriteArrayList<>();
@@ -162,8 +162,8 @@ public class BaseSprite extends BaseSub {
         Rect src = new Rect(u, v, u + s_width, v + s_height);
 
         // scale
-        int x = s_position.x;
-        int y = s_position.y;
+        int x = (int) s_position.x;
+        int y = (int) s_position.y;
         int w = (int) (s_width * s_scale.x);
         int h = (int) (s_height * s_scale.y);
 
@@ -212,8 +212,8 @@ public class BaseSprite extends BaseSub {
         }
 
         if (!s_frame_rect.isEmpty()) {
-            int x = s_position.x;
-            int y = s_position.y;
+            int x = (int) s_position.x;
+            int y = (int) s_position.y;
             int w = (int) (s_width * s_scale.x);
             int h = (int) (s_height * s_scale.y);
             Rect s_dst = new Rect(x, y, x + w, y + h);
@@ -242,19 +242,16 @@ public class BaseSprite extends BaseSub {
 
 
     public void setPosition(int x, int y) {
-        s_position.set(x, y);
+        s_position.x = x;
+        s_position.y = y;
     }
 
     public void setDipPosition(int x, int y) {
-        s_position.set(DisplayUtils.dip2px(x), DisplayUtils.dip2px(y));
+        s_position.x = DisplayUtils.dip2px(x);
+        s_position.y = DisplayUtils.dip2px(y);
     }
 
-    public Point getPostion() {
-        return s_position;
-    }
-
-
-    public Point getPosition() {
+    public Float2 getPosition() {
         return s_position;
     }
 
@@ -361,9 +358,9 @@ public class BaseSprite extends BaseSub {
 
     public Rect getBounds() {
         // scaled
-        return new Rect(s_position.x, s_position.y,
-                s_position.x + (int) (s_width * s_scale.x),
-                s_position.y + (int) (s_height * s_scale.y));
+        return new Rect((int) s_position.x, (int) s_position.y,
+                (int) (s_position.x + s_width * s_scale.x),
+                (int) (s_position.y + s_height * s_scale.y));
     }
 
     @Override

@@ -120,14 +120,14 @@ public class Game extends Engine {
                     if (ship.s_position.x + offsetX > 0
                             && ship.s_position.x + offsetX + ship.getWidth() < UIdefaultData.screenWidth) {
                         ship.s_position.x += offsetX;
-                        restartEvent(event);
+                        resetEvent(event);
                     }
                 } else {
                     if (ship.s_position.y + offsetY > 0
                             && ship.s_position.y + offsetY + ship.getHeight() < UIdefaultData.screenHeight) {
 //                        Log.e("position h:" + sprite.s_position.y, "h" + sprite.getHeight());
                         ship.s_position.y += offsetY;
-                        restartEvent(event);
+                        resetEvent(event);
                     }
                 }
                 break;
@@ -143,7 +143,7 @@ public class Game extends Engine {
 
     }
 
-    private void restartEvent(MotionEvent event) {
+    private void resetEvent(MotionEvent event) {
         startX = (int) event.getX();
         startY = (int) event.getY();
     }

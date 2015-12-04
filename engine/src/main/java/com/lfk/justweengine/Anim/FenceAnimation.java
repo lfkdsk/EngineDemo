@@ -1,7 +1,7 @@
 package com.lfk.justweengine.Anim;
 
-import android.graphics.Point;
 import android.graphics.Rect;
+import android.renderscript.Float2;
 
 /**
  * 围栏使用动画防止出界
@@ -19,7 +19,7 @@ public class FenceAnimation extends BaseAnim {
     }
 
     @Override
-    public Point adjustPosition(Point ori) {
+    public Float2 adjustPosition(Float2 ori) {
         if (ori.x < fence.left)
             ori.x = fence.left;
         else if (ori.x > fence.right)
