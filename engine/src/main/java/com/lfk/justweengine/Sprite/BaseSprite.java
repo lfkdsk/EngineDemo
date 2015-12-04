@@ -334,6 +334,26 @@ public class BaseSprite extends BaseSub {
         return e_offender;
     }
 
+    public void stopAllAnimation() {
+        if (animList != null)
+            animList.clear();
+    }
+
+    public void stopAllFixedAnimation() {
+        if (animMap != null)
+            animMap.clear();
+    }
+
+    public void stopAnimation(int position) {
+        if (animList != null)
+            animList.remove(position);
+    }
+
+    public void stopFixedAnimation(String name) {
+        if (animMap != null)
+            animMap.remove(name);
+    }
+
     @Override
     public void setOffender(BaseSub e_offender) {
         this.e_offender = e_offender;
