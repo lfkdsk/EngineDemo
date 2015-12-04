@@ -20,7 +20,5 @@ public enum AnimType {
 
     WRAPMOVE,
 
-    MOVE,
-
     NULL
 }
