@@ -195,6 +195,11 @@ public class BaseSprite extends BaseSub {
     }
 
     @Override
+    public boolean getAlive() {
+        return s_alive;
+    }
+
+    @Override
     public void draw() {
         s_canvas = s_engine.getCanvas();
         switch (frameType) {

@@ -235,11 +235,14 @@ public abstract class Engine extends Activity implements Runnable, View.OnTouchL
             update();
 
             for (BaseSub A : e_sprite_group) {
+                if (!A.getAlive()) continue;
+
                 if (!A.isCollidable()) continue;
 
                 if (A.isCollided()) continue;
 
                 for (BaseSub B : e_sprite_group) {
+                    if (!B.getAlive()) continue;
 
                     if (!B.isCollidable()) continue;
 
@@ -256,7 +259,6 @@ public abstract class Engine extends Activity implements Runnable, View.OnTouchL
                         A.setOffender(B);
                         B.setCollided(true);
                         B.setOffender(A);
-//                        Log.e(A.getBounds().centerX() + "", "");
                         break;
                     }
                 }
@@ -266,18 +268,21 @@ public abstract class Engine extends Activity implements Runnable, View.OnTouchL
             if (beginDrawing()) {
                 e_canvas.drawColor(e_backgroundColor);
 
+                // draw
+                // 提前到实体绘制之前
+                draw();
+
                 for (BaseSub baseSub : e_sprite_group) {
-                    baseSub.animation();
-                    baseSub.draw();
+                    if (baseSub.getAlive()) {
+                        baseSub.animation();
+                        baseSub.draw();
+                    }
                     if (baseSub.isCollidable() && baseSub.isCollided()) {
                         e_paintDraw.setColor(Color.RED);
                         e_paintDraw.setStyle(Paint.Style.STROKE);
                         e_canvas.drawRect(baseSub.getBounds(), e_paintDraw);
                     }
                 }
-
-                // draw
-                draw();
 
                 if (e_isFrameOpen) {
                     int x = e_canvas.getWidth() - 150;

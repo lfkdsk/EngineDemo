@@ -9,6 +9,7 @@ import android.graphics.Rect;
  *         Created by liufengkai on 15/12/4.
  */
 public abstract class BaseSub {
+    public abstract boolean getAlive();
 
     public abstract void draw();
 
