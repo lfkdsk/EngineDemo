@@ -269,7 +269,6 @@ public abstract class Engine extends Activity implements Runnable, View.OnTouchL
                 for (BaseSub baseSub : e_sprite_group) {
                     baseSub.animation();
                     baseSub.draw();
-
                     if (baseSub.isCollidable() && baseSub.isCollided()) {
                         e_paintDraw.setColor(Color.RED);
                         e_paintDraw.setStyle(Paint.Style.STROKE);

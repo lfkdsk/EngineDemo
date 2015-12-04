@@ -18,8 +18,6 @@ import com.lfk.justweengine.Info.UIdefaultData;
 import com.lfk.justweengine.Sprite.BaseSprite;
 import com.lfk.justweengine.Sprite.FrameType;
 
-//import android.util.Log;
-
 public class Game extends Engine {
     GameTextPrinter printer;
     Paint paint;
@@ -48,6 +46,7 @@ public class Game extends Engine {
     public void init() {
 //        Log.d("game", "init");
         super.setScreenOrientation(ScreenMode.PORTRAIT);
+        super.setBackgroundColor(Color.WHITE);
         UIdefaultData.init(this);
     }
 
@@ -61,16 +60,18 @@ public class Game extends Engine {
         sprite = new BaseSprite(this, 96, 96, 8);
         sprite2 = new BaseSprite(this, 96, 96, 8);
 
-        ship = new BaseSprite(this, FrameType.COMMON);
+        ship = new BaseSprite(this, 100, 124, FrameType.COMMON);
 
         sprite.setTexture(texture);
         sprite2.setTexture(texture);
         ship.setTexture(texture1);
 
 
-        ship.addRectFrame(0, 100, 98, 124);
+        ship.addRectFrame(0, 100, 100, 124);
+        ship.addRectFrame(167, 361, 100, 124);
+        ship.addAnimation(new FrameAnimation(0, 1, 1));
 
-        ship.setDipPosition(200, 200);
+        ship.setDipPosition(50, 50);
         sprite.setPosition(100, 100);
         sprite.setPosition(200, 200);
 //        sprite.addAnimation(new ThrobAnimation(0.3f, 0.9f, 0.01f));
@@ -101,9 +102,9 @@ public class Game extends Engine {
         sprite.setIdentifier(100);
         sprite.setIdentifier(10);
 
-        addToSpriteGroup(ship);
         addToSpriteGroup(sprite);
         addToSpriteGroup(sprite2);
+        addToSpriteGroup(ship);
     }
 
 

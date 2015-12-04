@@ -1,11 +1,11 @@
 package com.lfk.justweengine.Sprite;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.renderscript.Float2;
-import android.util.Log;
 
 import com.lfk.justweengine.Anim.BaseAnim;
 import com.lfk.justweengine.Anim.DoAfterAnimation;
@@ -73,7 +73,7 @@ public class BaseSprite extends BaseSub {
         this.frameType = FrameType.SIMPLE;
     }
 
-    public BaseSprite(Engine engine, FrameType type) {
+    public BaseSprite(Engine engine, int w, int h, FrameType type) {
         switch (type) {
             case SIMPLE:
                 frameType = FrameType.SIMPLE;
@@ -83,8 +83,8 @@ public class BaseSprite extends BaseSub {
                 break;
         }
         this.s_engine = engine;
-        this.s_width = 0;
-        this.s_height = 0;
+        this.s_width = w;
+        this.s_height = h;
         init();
     }
 
@@ -206,18 +206,21 @@ public class BaseSprite extends BaseSub {
     }
 
     public void drawWithFrame() {
+        if (s_width == 0 || s_height == 0) {
+            s_width = s_frame_rect.getFirst().width();
+            s_height = s_frame_rect.getFirst().height();
+        }
+
         if (!s_frame_rect.isEmpty()) {
-            if (s_width == 0 || s_height == 0) {
-                s_width = s_frame_rect.get(0).width();
-                s_height = s_frame_rect.get(0).height();
-            }
             int x = s_position.x;
             int y = s_position.y;
             int w = (int) (s_width * s_scale.x);
             int h = (int) (s_height * s_scale.y);
             Rect s_dst = new Rect(x, y, x + w, y + h);
             s_paint.setAlpha(s_alpha);
-            Log.e("rect" + "bottom" + s_frame_rect.get(0).bottom, "");
+            s_paint.setColor(Color.WHITE);
+            s_paint.setStyle(Paint.Style.STROKE);
+            s_canvas.drawRect(getBounds(), s_paint);
             s_canvas.drawBitmap(s_texture.getBitmap(),
                     s_frame_rect.get(s_frame),
                     s_dst, s_paint);
