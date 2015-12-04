@@ -29,6 +29,8 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class BaseSprite extends BaseSub {
     // 名称
     private String s_name;
+    // 死或生
+    private boolean s_alive;
     // 是否可碰撞 / 是否检测过
     private boolean s_collidable, s_collided;
     private BaseSub e_offender;
@@ -118,6 +120,7 @@ public class BaseSprite extends BaseSub {
         s_rotation = 0.0f;
         s_collidable = true;
         s_collided = false;
+        s_alive = true;
 
         if (frameType == FrameType.COMMON) {
             s_frame_rect = new LinkedList<>();
@@ -430,6 +433,9 @@ public class BaseSprite extends BaseSub {
                 break;
             case POSITION:
                 s_position = anim.adjustPosition(s_position);
+                break;
+            case ALIVE:
+                s_alive = anim.adjustAlive(s_alive);
                 break;
         }
         if (afterAnimation != null)

@@ -39,4 +39,8 @@ public class BaseAnim {
     public Float2 adjustPosition(Float2 ori) {
         return ori;
     }
+
+    public boolean adjustAlive(boolean ori) {
+        return ori;
+    }
 }
