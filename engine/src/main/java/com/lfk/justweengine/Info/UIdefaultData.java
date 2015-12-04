@@ -20,6 +20,7 @@ public class UIdefaultData {
         scale = context.getResources().getDisplayMetrics().density;
         screenWidth = context.getResources().getDisplayMetrics().widthPixels;
         screenHeight = context.getResources().getDisplayMetrics().heightPixels;
+        center = new Point(screenWidth / 2, screenHeight / 2);
         Log.e("h" + screenHeight, "w" + screenWidth);
     }
 
@@ -31,5 +32,5 @@ public class UIdefaultData {
 
     public static float scale;
 
-    public static Point centerHorizontal;
+    public static Point center;
 }

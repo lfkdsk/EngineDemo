@@ -9,12 +9,14 @@ import android.view.MotionEvent;
 import com.lfk.justweengine.Anim.FrameAnimation;
 import com.lfk.justweengine.Anim.MoveAnimation;
 import com.lfk.justweengine.Drawable.Button.TextureButton;
+import com.lfk.justweengine.Engine.BaseSub;
 import com.lfk.justweengine.Engine.Engine;
 import com.lfk.justweengine.Engine.GameTextPrinter;
 import com.lfk.justweengine.Engine.GameTexture;
 import com.lfk.justweengine.Engine.GameTimer;
 import com.lfk.justweengine.Info.UIdefaultData;
 import com.lfk.justweengine.Sprite.BaseSprite;
+import com.lfk.justweengine.Sprite.FrameType;
 
 //import android.util.Log;
 
@@ -24,7 +26,7 @@ public class Game extends Engine {
     Canvas canvas;
     GameTimer timer;
     //    GameTexture texture;
-    BaseSprite sprite, sprite2;
+    BaseSprite sprite, sprite2, ship;
     TextureButton button;
     float startX, startY, offsetX, offsetY;
 
@@ -53,12 +55,22 @@ public class Game extends Engine {
     public void load() {
         GameTexture texture = new GameTexture(this);
         texture.loadFromAsset("pic/zombie_walk.png");
+        GameTexture texture1 = new GameTexture(this);
+        texture1.loadFromAsset("pic/shoot.png");
+
         sprite = new BaseSprite(this, 96, 96, 8);
         sprite2 = new BaseSprite(this, 96, 96, 8);
 
+        ship = new BaseSprite(this, FrameType.COMMON);
+
         sprite.setTexture(texture);
         sprite2.setTexture(texture);
+        ship.setTexture(texture1);
 
+
+        ship.addRectFrame(0, 100, 98, 124);
+
+        ship.setDipPosition(200, 200);
         sprite.setPosition(100, 100);
         sprite.setPosition(200, 200);
 //        sprite.addAnimation(new ThrobAnimation(0.3f, 0.9f, 0.01f));
@@ -66,6 +78,9 @@ public class Game extends Engine {
 //                300, 200, 200, 0, 0.05f));
         sprite.setDipScale(128, 128);
         sprite2.setDipScale(128, 128);
+        ship.setDipScale(96, 96);
+
+
         sprite.addAnimation(new FrameAnimation(0, 63, 1));
         sprite.addAnimation(new MoveAnimation(200, 1000, new Float2(1, 1)));
         sprite2.addAnimation(new FrameAnimation(0, 63, 1));
@@ -81,8 +96,12 @@ public class Game extends Engine {
 //        });
         sprite.setName("1");
         sprite2.setName("2");
+        ship.setName("3");
+        ship.setIdentifier(200);
         sprite.setIdentifier(100);
         sprite.setIdentifier(10);
+
+        addToSpriteGroup(ship);
         addToSpriteGroup(sprite);
         addToSpriteGroup(sprite2);
     }
@@ -98,8 +117,6 @@ public class Game extends Engine {
         printer.setCanvas(canvas);
         printer.drawText("Engine demo", 10, 20);
 
-
-//        sprite.drawWithFrame();
 
 //        if (super.getTouchPoints() > 0) {
 //            printer.drawText("Touch inputs: " + super.getTouchPoints());
@@ -168,7 +185,7 @@ public class Game extends Engine {
     }
 
     @Override
-    public void collision(BaseSprite sprite) {
+    public void collision(BaseSub baseSub) {
 
     }
 

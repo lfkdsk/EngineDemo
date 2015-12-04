@@ -5,6 +5,7 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.renderscript.Float2;
+import android.util.Log;
 
 import com.lfk.justweengine.Anim.BaseAnim;
 import com.lfk.justweengine.Anim.DoAfterAnimation;
@@ -14,6 +15,7 @@ import com.lfk.justweengine.Engine.GameTexture;
 import com.lfk.justweengine.Info.UIdefaultData;
 import com.lfk.justweengine.Utils.tools.DisplayUtils;
 
+import java.util.LinkedList;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -31,6 +33,7 @@ public class BaseSprite extends BaseSub {
     private boolean s_collidable, s_collided;
     private BaseSub e_offender;
     private int e_identifier;
+    private FrameType frameType;
     // 传入的engine
     private Engine s_engine;
     private Canvas s_canvas;
@@ -56,15 +59,9 @@ public class BaseSprite extends BaseSub {
     private ConcurrentHashMap<String, BaseAnim> animMap;
     // 流式动画
     private CopyOnWriteArrayList<BaseAnim> animList;
-    //    private Matrix s_mat_translation;
-//    private Matrix s_mat_scale;
-//    private Matrix s_mat_rotate;
-//    private Matrix s_matrix;
-//    private Bitmap s_frameBitmap;
-//    private Canvas s_frameCanvas;
-    private Rect s_dst;
     // 动画结束的回调
     private DoAfterAnimation afterAnimation = null;
+    private LinkedList<Rect> s_frame_rect;
 
     /**
      * easy init
@@ -73,6 +70,22 @@ public class BaseSprite extends BaseSub {
      */
     public BaseSprite(Engine engine) {
         this(engine, 0, 0, 1);
+        this.frameType = FrameType.SIMPLE;
+    }
+
+    public BaseSprite(Engine engine, FrameType type) {
+        switch (type) {
+            case SIMPLE:
+                frameType = FrameType.SIMPLE;
+                break;
+            case COMMON:
+                frameType = FrameType.COMMON;
+                break;
+        }
+        this.s_engine = engine;
+        this.s_width = 0;
+        this.s_height = 0;
+        init();
     }
 
     /**
@@ -88,6 +101,7 @@ public class BaseSprite extends BaseSub {
         this.s_width = w;
         this.s_height = h;
         this.s_columns = columns;
+        this.frameType = FrameType.FIXED;
         init();
     }
 
@@ -104,6 +118,13 @@ public class BaseSprite extends BaseSub {
         s_rotation = 0.0f;
         s_collidable = true;
         s_collided = false;
+
+        if (frameType == FrameType.COMMON) {
+            s_frame_rect = new LinkedList<>();
+        } else if (frameType == FrameType.SIMPLE) {
+            this.s_columns = 1;
+        }
+
 //        s_dst = new Rect();
 //        s_mat_translation = new Matrix();
 //        s_mat_scale = new Matrix();
@@ -121,15 +142,12 @@ public class BaseSprite extends BaseSub {
     /**
      * draw
      */
-    public void drawWithFrame() {
-        s_canvas = s_engine.getCanvas();
-
+    public void drawWithFixedFrame() {
         // init width and height
         if (s_width == 0 || s_height == 0) {
             s_width = s_texture.getBitmap().getWidth();
             s_height = s_texture.getBitmap().getHeight();
         }
-
 //        // scratch bitmap
 //        if (s_frameBitmap == null) {
 //            s_frameBitmap = Bitmap.createBitmap(s_width, s_height, Bitmap.Config.ARGB_8888);
@@ -149,7 +167,7 @@ public class BaseSprite extends BaseSub {
         int w = (int) (s_width * s_scale.x);
         int h = (int) (s_height * s_scale.y);
 
-        s_dst = new Rect(x, y, x + w, y + h);
+        Rect s_dst = new Rect(x, y, x + w, y + h);
 
         // draw the frame
         s_paint.setAlpha(s_alpha);
@@ -173,9 +191,39 @@ public class BaseSprite extends BaseSub {
 //        s_canvas.drawBitmap(s_frameBitmap, s_matrix, s_paint);
     }
 
+    @Override
     public void draw() {
-
+        s_canvas = s_engine.getCanvas();
+        switch (frameType) {
+            case FIXED:
+            case SIMPLE:
+                drawWithFixedFrame();
+                break;
+            case COMMON:
+                drawWithFrame();
+                break;
+        }
     }
+
+    public void drawWithFrame() {
+        if (!s_frame_rect.isEmpty()) {
+            if (s_width == 0 || s_height == 0) {
+                s_width = s_frame_rect.get(0).width();
+                s_height = s_frame_rect.get(0).height();
+            }
+            int x = s_position.x;
+            int y = s_position.y;
+            int w = (int) (s_width * s_scale.x);
+            int h = (int) (s_height * s_scale.y);
+            Rect s_dst = new Rect(x, y, x + w, y + h);
+            s_paint.setAlpha(s_alpha);
+            Log.e("rect" + "bottom" + s_frame_rect.get(0).bottom, "");
+            s_canvas.drawBitmap(s_texture.getBitmap(),
+                    s_frame_rect.get(s_frame),
+                    s_dst, s_paint);
+        }
+    }
+
 
     public void setPaint(Paint paint) {
         s_paint = paint;
@@ -192,6 +240,10 @@ public class BaseSprite extends BaseSub {
 
     public void setPosition(int x, int y) {
         s_position.set(x, y);
+    }
+
+    public void setDipPosition(int x, int y) {
+        s_position.set(DisplayUtils.dip2px(x), DisplayUtils.dip2px(y));
     }
 
     public Point getPostion() {
@@ -308,6 +360,14 @@ public class BaseSprite extends BaseSub {
         this.s_name = s_name;
     }
 
+    public FrameType getFrameType() {
+        return frameType;
+    }
+
+    public void setFrameType(FrameType frameType) {
+        this.frameType = frameType;
+    }
+
     /**
      * add anim to list
      *
@@ -326,6 +386,12 @@ public class BaseSprite extends BaseSub {
         BaseAnim anim = animMap.get(name);
 //        anim.animating = true;
         doAnimation(anim);
+    }
+
+    public void addRectFrame(int x, int y, int w, int h) {
+        if (s_frame_rect != null) {
+            s_frame_rect.add(new Rect(x, y, x + w, y + h));
+        }
     }
 
     private void doAnimation(BaseAnim anim) {

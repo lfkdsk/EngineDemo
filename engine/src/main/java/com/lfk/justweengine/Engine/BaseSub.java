@@ -3,11 +3,14 @@ package com.lfk.justweengine.Engine;
 import android.graphics.Rect;
 
 /**
- * Created by liufengkai on 15/12/4.
+ * 游戏中的抽象基类
+ *
+ * @author liufengkai
+ *         Created by liufengkai on 15/12/4.
  */
 public abstract class BaseSub {
 
-    public abstract void drawWithFrame();
+    public abstract void draw();
 
     public abstract void animation();
 
