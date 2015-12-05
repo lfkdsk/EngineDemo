@@ -594,7 +594,8 @@ public class BaseSprite extends BaseSub {
         if (animMap.isEmpty()) return;
         BaseAnim anim = animMap.get(name);
 //        anim.animating = true;
-        doAnimation(anim);
+        if (anim.animating)
+            doAnimation(anim);
     }
 
     /**

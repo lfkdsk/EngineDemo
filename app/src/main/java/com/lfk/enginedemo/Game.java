@@ -25,7 +25,6 @@ public class Game extends Engine {
     //    GameTexture texture;
     BaseSprite ship;
     float startX, startY, offsetX, offsetY;
-    boolean first = true;
 
     public Game() {
         super(false);
@@ -56,15 +55,12 @@ public class Game extends Engine {
         ship.addRectFrame(0, 100, 100, 124);
         ship.addRectFrame(167, 361, 100, 124);
         ship.addAnimation(new FrameAnimation(0, 1, 1));
-//        ship.addAnimation(new FenceAnimation(new Rect(0, 0, UIdefaultData.screenWidth, UIdefaultData.screenHeight)));
-        ship.setPosition(UIdefaultData.centerInHorizontalX,
+        ship.setPosition(UIdefaultData.centerInHorizontalX - ship.getWidthWithScale() / 2,
                 UIdefaultData.screenHeight + ship.getHeightWidthScale());
         ship.setDipScale(96, 96);
-//        ship.addAnimation(new MoveAnimation(UIdefaultData.centerInHorizontalX,
-//                UIdefaultData.screenWidth * 2 / 3, new Float2(10, 10)));
         ship.addfixedAnimation("start",
-                new MoveAnimation(UIdefaultData.centerInHorizontalX,
-                        UIdefaultData.screenWidth * 2 / 3, new Float2(10, 10)));
+                new MoveAnimation(UIdefaultData.centerInHorizontalX - ship.getWidthWithScale() / 2,
+                        UIdefaultData.screenHeight - 2 * ship.getHeightWidthScale(), new Float2(10, 10)));
         ship.setName("3");
         ship.setIdentifier(200);
         addToSpriteGroup(ship);
@@ -73,24 +69,12 @@ public class Game extends Engine {
 
     @Override
     public void draw() {
-//        Log.d("game", " draw");
 
         paint.setColor(Color.WHITE);
         canvas = super.getCanvas();
 
         printer.setCanvas(canvas);
         printer.drawText("Engine demo", 10, 20);
-
-//        if (super.getTouchPoints() > 0) {
-//            printer.drawText("Touch inputs: " + super.getTouchPoints());
-//            for (int i = 0; i < super.getTouchPoints(); i++) {
-//                printer.drawText(i + " :" + super.getTouchPoint(i).toString());
-//                Point p = super.getTouchPoint(i);
-//                if (p.x != 0 && p.y != 0) {
-//                    canvas.drawCircle(p.x, p.y, 50, paint);
-//                }
-//            }
-//        }
 
         if (timer.stopWatch(500)) {
             super.drawText("**TIMER**", super.getCanvas().getWidth() / 2, 20);
@@ -102,7 +86,6 @@ public class Game extends Engine {
         if (timer.stopWatch(20)) {
             if (ship.getFixedAnimation("start").animating) {
                 ship.fixedAnimation("start");
-                first = false;
             }
         }
     }
@@ -120,10 +103,6 @@ public class Game extends Engine {
                         ship.s_position.x += offsetX;
                         resetEvent(event);
                     }
-//                    if (ship.s_position.x < 0 && ship.s_position.x > UIdefaultData.screenWidth) {
-//                        ship.s_position.x += offsetX;
-//                        resetEvent(event);
-//                    }
                 } else {
                     if (ship.s_position.y + offsetY > 0
                             && ship.s_position.y + offsetY +
@@ -131,10 +110,6 @@ public class Game extends Engine {
                         ship.s_position.y += offsetY;
                         resetEvent(event);
                     }
-//                    if (ship.s_position.y < 0 && ship.s_position.y > UIdefaultData.screenHeight) {
-//                        ship.s_position.y += offsetY;
-//                        resetEvent(event);
-//                    }
                 }
                 break;
             case MotionEvent.ACTION_DOWN:
