@@ -286,7 +286,7 @@ public class BaseSprite extends BaseSub {
      * @param x
      * @param y
      */
-    public void setPosition(int x, int y) {
+    public void setPosition(float x, float y) {
         s_position.x = x;
         s_position.y = y;
     }
@@ -635,6 +635,10 @@ public class BaseSprite extends BaseSub {
                 s_position = anim.adjustPosition(s_position);
                 break;
             case ALIVE:
+                s_alive = anim.adjustAlive(s_alive);
+                break;
+            case SHOOT:
+                s_position = anim.adjustPosition(s_position);
                 s_alive = anim.adjustAlive(s_alive);
                 break;
         }

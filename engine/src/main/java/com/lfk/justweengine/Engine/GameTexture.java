@@ -73,4 +73,12 @@ public class GameTexture {
         return true;
     }
 
+    public static Bitmap loadFromBigBitmap(GameTexture texture, int x, int y
+            , int w, int h) {
+        return Bitmap.createBitmap(texture.getBitmap(), x, y, w, h);
+    }
+
+    public void setBitmap(Bitmap e_bitmap) {
+        this.e_bitmap = e_bitmap;
+    }
 }

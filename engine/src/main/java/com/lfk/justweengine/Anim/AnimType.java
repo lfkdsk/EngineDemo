@@ -22,5 +22,7 @@ public enum AnimType {
 
     ALIVE,
 
+    SHOOT,
+
     NULL
 }
