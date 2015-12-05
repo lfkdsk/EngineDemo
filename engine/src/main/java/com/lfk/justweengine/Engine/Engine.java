@@ -613,6 +613,7 @@ public abstract class Engine extends Activity implements Runnable, View.OnTouchL
 
     /**
      * add BaseSub to group
+     *
      * @param sprite
      */
     protected void addToSpriteGroup(BaseSub sprite) {
@@ -621,6 +622,7 @@ public abstract class Engine extends Activity implements Runnable, View.OnTouchL
 
     /**
      * remove from group
+     *
      * @param sprite
      */
     protected void removeFromSpriteGroup(BaseSub sprite) {
@@ -633,6 +635,7 @@ public abstract class Engine extends Activity implements Runnable, View.OnTouchL
 
     /**
      * get size
+     *
      * @return size
      */
     protected int getSpriteGroupSize() {

@@ -3,7 +3,6 @@ package com.lfk.justweengine.Sprite;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.renderscript.Float2;
@@ -76,6 +75,14 @@ public class BaseSprite extends BaseSub {
         this.frameType = FrameType.SIMPLE;
     }
 
+    /**
+     * init with type
+     *
+     * @param engine
+     * @param w
+     * @param h
+     * @param type
+     */
     public BaseSprite(Engine engine, int w, int h, FrameType type) {
         switch (type) {
             case SIMPLE:
@@ -195,11 +202,9 @@ public class BaseSprite extends BaseSub {
 //        s_canvas.drawBitmap(s_frameBitmap, s_matrix, s_paint);
     }
 
-    @Override
-    public boolean getAlive() {
-        return s_alive;
-    }
-
+    /**
+     * draw
+     */
     @Override
     public void draw() {
         s_canvas = s_engine.getCanvas();
@@ -236,74 +241,171 @@ public class BaseSprite extends BaseSub {
         }
     }
 
+    /**
+     * set / get alive
+     */
+    @Override
+    public boolean getAlive() {
+        return s_alive;
+    }
 
+    public void setAlive(boolean s_alive) {
+        this.s_alive = s_alive;
+    }
+
+    /**
+     * set paint
+     *
+     * @param paint
+     */
     public void setPaint(Paint paint) {
         s_paint = paint;
     }
 
+    /**
+     * set texture
+     *
+     * @param s_texture
+     */
     public void setTexture(GameTexture s_texture) {
         this.s_texture = s_texture;
     }
 
+    /**
+     * get texture
+     *
+     * @return
+     */
     public GameTexture getTexture() {
         return s_texture;
     }
 
-
+    /**
+     * set position
+     *
+     * @param x
+     * @param y
+     */
     public void setPosition(int x, int y) {
         s_position.x = x;
         s_position.y = y;
     }
 
+    /**
+     * set position with dip
+     *
+     * @param x
+     * @param y
+     */
     public void setDipPosition(int x, int y) {
         s_position.x = DisplayUtils.dip2px(x);
         s_position.y = DisplayUtils.dip2px(y);
     }
 
+    /**
+     * get position
+     *
+     * @return
+     */
     public Float2 getPosition() {
         return s_position;
     }
 
+    /**
+     * set frame
+     *
+     * @param s_frame
+     */
     public void setFrame(int s_frame) {
         this.s_frame = s_frame;
     }
 
+    /**
+     * get frame
+     *
+     * @return
+     */
     public int getFrame() {
         return s_frame;
     }
 
+    /**
+     * set alpha
+     *
+     * @param s_alpha
+     */
     public void setAlpha(int s_alpha) {
         this.s_alpha = s_alpha;
     }
 
+    /**
+     * get alpha
+     *
+     * @return
+     */
     public int getAlpha() {
         return s_alpha;
     }
 
+    /**
+     * get height
+     *
+     * @return
+     */
     public int getHeight() {
         return s_height;
     }
 
+    /**
+     * get width
+     *
+     * @return
+     */
     public int getWidth() {
         return s_width;
     }
 
+    /**
+     * set height
+     *
+     * @param h
+     */
     public void setHeight(int h) {
         s_height = h;
     }
 
+    /**
+     * set width
+     *
+     * @param w
+     */
     public void setWidth(int w) {
         s_width = w;
     }
 
-    public Point getSize() {
-        return new Point(s_width, s_height);
+    /**
+     * get size
+     *
+     * @return
+     */
+    public Float2 getSize() {
+        return new Float2(s_width, s_height);
     }
 
+    /**
+     * get scale
+     *
+     * @return
+     */
     public Float2 getScale() {
         return s_scale;
     }
 
+    /**
+     * set scale
+     *
+     * @param scale
+     */
     public void setScale(Float2 scale) {
         s_scale = scale;
     }
@@ -312,6 +414,11 @@ public class BaseSprite extends BaseSub {
         s_scale = new Float2(scale, scale);
     }
 
+    /**
+     * get / set rotation
+     *
+     * @return
+     */
     public float getRotation() {
         return s_rotation;
     }
@@ -320,26 +427,54 @@ public class BaseSprite extends BaseSub {
         this.s_rotation = s_rotation;
     }
 
+    /**
+     * is collidable ?
+     *
+     * @return
+     */
     public boolean isCollidable() {
         return s_collidable;
     }
 
+    /**
+     * is collided ?
+     *
+     * @return
+     */
     public boolean isCollided() {
         return s_collided;
     }
 
+    /**
+     * set collidable
+     *
+     * @param s_collidable
+     */
     public void setCollidable(boolean s_collidable) {
         this.s_collidable = s_collidable;
     }
 
+    /**
+     * set collided
+     *
+     * @param s_collided
+     */
     public void setCollided(boolean s_collided) {
         this.s_collided = s_collided;
     }
 
+    /**
+     * get offender
+     *
+     * @return
+     */
     public BaseSub getOffender() {
         return e_offender;
     }
 
+    /**
+     * stop Animation
+     */
     public void stopAllAnimation() {
         if (animList != null)
             animList.clear();
@@ -360,11 +495,22 @@ public class BaseSprite extends BaseSub {
             animMap.remove(name);
     }
 
+    /**
+     * set offender
+     *
+     * @param e_offender
+     */
     @Override
     public void setOffender(BaseSub e_offender) {
         this.e_offender = e_offender;
     }
 
+    /**
+     * get Bounds
+     * 获取区域大小
+     *
+     * @return
+     */
     public RectF getBounds() {
         // scaled
         return new RectF((int) s_position.x, (int) s_position.y,
@@ -372,6 +518,11 @@ public class BaseSprite extends BaseSub {
                 (int) (s_position.y + s_height * s_scale.y));
     }
 
+    /**
+     * get / set Id
+     *
+     * @return
+     */
     @Override
     public int getIdentifier() {
         return e_identifier;
@@ -381,6 +532,11 @@ public class BaseSprite extends BaseSub {
         this.e_identifier = e_identifier;
     }
 
+    /**
+     * get / set Name
+     *
+     * @return
+     */
     public String getName() {
         return s_name;
     }
@@ -389,6 +545,11 @@ public class BaseSprite extends BaseSub {
         this.s_name = s_name;
     }
 
+    /**
+     * get / set FrameType
+     *
+     * @return
+     */
     public FrameType getFrameType() {
         return frameType;
     }
@@ -406,10 +567,21 @@ public class BaseSprite extends BaseSub {
         animList.add(anim);
     }
 
+    /**
+     * add fixed to Map
+     *
+     * @param name
+     * @param anim
+     */
     public void addfixedAnimation(String name, BaseAnim anim) {
         animMap.put(name, anim);
     }
 
+    /**
+     * do fixed anim
+     *
+     * @param name
+     */
     public void fixedAnimation(String name) {
         if (animMap.isEmpty()) return;
         BaseAnim anim = animMap.get(name);
@@ -417,12 +589,25 @@ public class BaseSprite extends BaseSub {
         doAnimation(anim);
     }
 
+    /**
+     * add rect frame for the common type
+     *
+     * @param x
+     * @param y
+     * @param w
+     * @param h
+     */
     public void addRectFrame(int x, int y, int w, int h) {
         if (s_frame_rect != null) {
             s_frame_rect.add(new Rect(x, y, x + w, y + h));
         }
     }
 
+    /**
+     * do the anim
+     *
+     * @param anim
+     */
     private void doAnimation(BaseAnim anim) {
         switch (anim.animType) {
             case FRAME:
@@ -444,6 +629,7 @@ public class BaseSprite extends BaseSub {
                 s_alive = anim.adjustAlive(s_alive);
                 break;
         }
+        // listener
         if (afterAnimation != null)
             afterAnimation.afterAnimation();
     }
