@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.renderscript.Float2;
 
 import com.lfk.justweengine.Anim.BaseAnim;
@@ -364,9 +365,9 @@ public class BaseSprite extends BaseSub {
         this.e_offender = e_offender;
     }
 
-    public Rect getBounds() {
+    public RectF getBounds() {
         // scaled
-        return new Rect((int) s_position.x, (int) s_position.y,
+        return new RectF((int) s_position.x, (int) s_position.y,
                 (int) (s_position.x + s_width * s_scale.x),
                 (int) (s_position.y + s_height * s_scale.y));
     }

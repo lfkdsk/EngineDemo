@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.renderscript.Float2;
@@ -16,7 +17,6 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.view.Window;
 
-import com.lfk.justweengine.Sprite.BaseSprite;
 import com.lfk.justweengine.Utils.logger.LogLevel;
 import com.lfk.justweengine.Utils.logger.Logger;
 
@@ -25,7 +25,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 
 /**
- * Engine 核心类
+ * Engine nucleus
  *
  * @author liufengkai
  *         Created by liufengkai on 15/11/26.
@@ -269,7 +269,7 @@ public abstract class Engine extends Activity implements Runnable, View.OnTouchL
                 e_canvas.drawColor(e_backgroundColor);
 
                 // draw
-                // 提前到实体绘制之前
+                // ahead of draw concrete sub
                 draw();
 
                 for (BaseSub baseSub : e_sprite_group) {
@@ -295,15 +295,34 @@ public abstract class Engine extends Activity implements Runnable, View.OnTouchL
                 endDrawing();
             }
 
+            // new collision
             for (BaseSub baseSub : e_sprite_group) {
-                collision(baseSub);
+                if (!baseSub.getAlive()) {
+                    //
+                    e_sprite_group.remove(baseSub);
+                    continue;
+                }
+
+                if (baseSub.isCollidable()) {
+                    if (baseSub.isCollided()) {
+                        // Is it a valid object ?
+                        if (baseSub.getOffender() != null) {
+                            // collision
+                            collision(baseSub);
+                            // reset offender
+                            baseSub.setOffender(null);
+                        }
+                        baseSub.setCollided(false);
+                    }
+                }
+
                 baseSub.setCollided(false);
             }
 
             // lock frame
             timeDiff = frameTimer.getElapsed() - startTime;
             long updatePeriod = e_sleepTime - timeDiff;
-            Logger.v("period", updatePeriod + ";");
+            Logger.v("period", updatePeriod);
             if (updatePeriod > 0) {
                 try {
                     Thread.sleep(updatePeriod);
@@ -550,8 +569,7 @@ public abstract class Engine extends Activity implements Runnable, View.OnTouchL
     }
 
     private boolean collisionCheck(BaseSub A, BaseSub B) {
-//        Log.e(A.getBounds().centerX() + "", A.getBounds().centerX() + "");
-        return Rect.intersects(A.getBounds(), B.getBounds());
+        return RectF.intersects(A.getBounds(), B.getBounds());
     }
 
     /**
@@ -581,15 +599,43 @@ public abstract class Engine extends Activity implements Runnable, View.OnTouchL
                 + "Z:" + round(value.z);
     }
 
-    protected void addToSpriteGroup(BaseSprite sprite) {
+    public String toString(Rect value) {
+        RectF rectF = new RectF(value.left, value.top, value.right, value.bottom);
+        return toString(rectF);
+    }
+
+    public String toString(RectF value) {
+        return "{" + round(value.left) + "," +
+                round(value.top) + "," +
+                round(value.right) + "," +
+                round(value.bottom) + "}";
+    }
+
+    /**
+     * add BaseSub to group
+     * @param sprite
+     */
+    protected void addToSpriteGroup(BaseSub sprite) {
         e_sprite_group.add(sprite);
     }
 
-    protected void removeFromSpirtGroup(BaseSprite sprite) {
+    /**
+     * remove from group
+     * @param sprite
+     */
+    protected void removeFromSpriteGroup(BaseSub sprite) {
         e_sprite_group.remove(sprite);
     }
 
-    protected void removeFromSpirtGroup(int index) {
+    protected void removeFromSpriteGroup(int index) {
         e_sprite_group.remove(index);
+    }
+
+    /**
+     * get size
+     * @return size
+     */
+    protected int getSpriteGroupSize() {
+        return e_sprite_group.size();
     }
 }

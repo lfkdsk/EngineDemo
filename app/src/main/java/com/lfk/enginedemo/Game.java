@@ -125,7 +125,6 @@ public class Game extends Engine {
                 } else {
                     if (ship.s_position.y + offsetY > 0
                             && ship.s_position.y + offsetY + ship.getHeight() < UIdefaultData.screenHeight) {
-//                        Log.e("position h:" + sprite.s_position.y, "h" + sprite.getHeight());
                         ship.s_position.y += offsetY;
                         resetEvent(event);
                     }

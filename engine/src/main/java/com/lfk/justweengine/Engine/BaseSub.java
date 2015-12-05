@@ -1,6 +1,6 @@
 package com.lfk.justweengine.Engine;
 
-import android.graphics.Rect;
+import android.graphics.RectF;
 
 /**
  * 游戏中的抽象基类
@@ -27,7 +27,7 @@ public abstract class BaseSub {
 
     public abstract void setOffender(BaseSub e_offender);
 
-    public abstract Rect getBounds();
+    public abstract RectF getBounds();
 
     public abstract int getIdentifier();
 }
