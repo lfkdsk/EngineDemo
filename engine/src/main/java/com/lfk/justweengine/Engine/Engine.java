@@ -231,7 +231,6 @@ public abstract class Engine extends Activity implements Runnable, View.OnTouchL
             }
 
             // update
-
             update();
 
             for (BaseSub A : e_sprite_group) {

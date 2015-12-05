@@ -365,6 +365,14 @@ public class BaseSprite extends BaseSub {
         return s_width;
     }
 
+    public int getWidthWithScale() {
+        return s_width * (int) s_scale.x;
+    }
+
+    public int getHeightWidthScale() {
+        return s_height * (int) s_scale.y;
+    }
+
     /**
      * set height
      *
@@ -678,5 +686,9 @@ public class BaseSprite extends BaseSub {
      */
     public void setAfterAnimation(DoAfterAnimation afterAnimation) {
         this.afterAnimation = afterAnimation;
+    }
+
+    public BaseAnim getFixedAnimation(String name) {
+        return animMap.get(name);
     }
 }

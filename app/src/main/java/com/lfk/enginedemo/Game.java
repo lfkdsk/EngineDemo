@@ -3,9 +3,11 @@ package com.lfk.enginedemo;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.renderscript.Float2;
 import android.view.MotionEvent;
 
 import com.lfk.justweengine.Anim.FrameAnimation;
+import com.lfk.justweengine.Anim.MoveAnimation;
 import com.lfk.justweengine.Engine.BaseSub;
 import com.lfk.justweengine.Engine.Engine;
 import com.lfk.justweengine.Engine.GameTextPrinter;
@@ -23,6 +25,7 @@ public class Game extends Engine {
     //    GameTexture texture;
     BaseSprite ship;
     float startX, startY, offsetX, offsetY;
+    boolean first = true;
 
     public Game() {
         super(false);
@@ -53,8 +56,15 @@ public class Game extends Engine {
         ship.addRectFrame(0, 100, 100, 124);
         ship.addRectFrame(167, 361, 100, 124);
         ship.addAnimation(new FrameAnimation(0, 1, 1));
-        ship.setDipPosition(50, 50);
+//        ship.addAnimation(new FenceAnimation(new Rect(0, 0, UIdefaultData.screenWidth, UIdefaultData.screenHeight)));
+        ship.setPosition(UIdefaultData.centerInHorizontalX,
+                UIdefaultData.screenHeight + ship.getHeightWidthScale());
         ship.setDipScale(96, 96);
+//        ship.addAnimation(new MoveAnimation(UIdefaultData.centerInHorizontalX,
+//                UIdefaultData.screenWidth * 2 / 3, new Float2(10, 10)));
+        ship.addfixedAnimation("start",
+                new MoveAnimation(UIdefaultData.centerInHorizontalX,
+                        UIdefaultData.screenWidth * 2 / 3, new Float2(10, 10)));
         ship.setName("3");
         ship.setIdentifier(200);
         addToSpriteGroup(ship);
@@ -70,7 +80,6 @@ public class Game extends Engine {
 
         printer.setCanvas(canvas);
         printer.drawText("Engine demo", 10, 20);
-
 
 //        if (super.getTouchPoints() > 0) {
 //            printer.drawText("Touch inputs: " + super.getTouchPoints());
@@ -90,23 +99,11 @@ public class Game extends Engine {
 
     @Override
     public void update() {
-//        Log.d("engine", " update" + sprite.getAlpha());
         if (timer.stopWatch(20)) {
-
-//            if (sprite.getScale().x <= 0.5f) {
-//                sprite.addfixedAnimation("alpha", new ThrobAnimation(0.5f, 3.0f, 0.01f));
-//            }
-//        }
-//            if (sprite.getAlpha() == 0) {
-//                sprite.setAlpha(255);
-//            }
-//            sprite.animation();
-            // manually update rotation
-//            float r = sprite.getRotation();
-//            sprite.setRotation(r + 0.01f);
-//            // manually reset scaling
-
-//            sprite.fixedAnimation("alpha");
+            if (ship.getFixedAnimation("start").animating) {
+                ship.fixedAnimation("start");
+                first = false;
+            }
         }
     }
 
@@ -118,16 +115,26 @@ public class Game extends Engine {
                 offsetY = event.getY() - startY;
                 if (Math.abs(offsetX) > Math.abs(offsetY)) {
                     if (ship.s_position.x + offsetX > 0
-                            && ship.s_position.x + offsetX + ship.getWidth() < UIdefaultData.screenWidth) {
+                            && ship.s_position.x + offsetX +
+                            ship.getHeightWidthScale() < UIdefaultData.screenWidth) {
                         ship.s_position.x += offsetX;
                         resetEvent(event);
                     }
+//                    if (ship.s_position.x < 0 && ship.s_position.x > UIdefaultData.screenWidth) {
+//                        ship.s_position.x += offsetX;
+//                        resetEvent(event);
+//                    }
                 } else {
                     if (ship.s_position.y + offsetY > 0
-                            && ship.s_position.y + offsetY + ship.getHeight() < UIdefaultData.screenHeight) {
+                            && ship.s_position.y + offsetY +
+                            ship.getHeightWidthScale() < UIdefaultData.screenHeight) {
                         ship.s_position.y += offsetY;
                         resetEvent(event);
                     }
+//                    if (ship.s_position.y < 0 && ship.s_position.y > UIdefaultData.screenHeight) {
+//                        ship.s_position.y += offsetY;
+//                        resetEvent(event);
+//                    }
                 }
                 break;
             case MotionEvent.ACTION_DOWN:
