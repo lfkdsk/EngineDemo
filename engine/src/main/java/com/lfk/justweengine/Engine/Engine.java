@@ -12,6 +12,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.renderscript.Float2;
 import android.renderscript.Float3;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.View;
@@ -51,6 +52,7 @@ public abstract class Engine extends Activity implements Runnable, View.OnTouchL
     //    private boolean isOpenDebug = false;
     private TouchMode e_touch_Mode;
     private CopyOnWriteArrayList<BaseSub> e_sprite_group;
+    private CopyOnWriteArrayList<BaseSub> e_spirte_recycle_group;
 
     /**
      * engine constructor
@@ -89,6 +91,7 @@ public abstract class Engine extends Activity implements Runnable, View.OnTouchL
         e_touch_Mode = TouchMode.SINGLE;
         e_backgroundColor = Color.BLACK;
         e_sprite_group = new CopyOnWriteArrayList<>();
+        e_spirte_recycle_group = new CopyOnWriteArrayList<>();
         Logger.d("Engine constructor");
     }
 
@@ -297,7 +300,7 @@ public abstract class Engine extends Activity implements Runnable, View.OnTouchL
             // new collision
             for (BaseSub baseSub : e_sprite_group) {
                 if (!baseSub.getAlive()) {
-                    //
+                    e_spirte_recycle_group.add(baseSub);
                     e_sprite_group.remove(baseSub);
                     continue;
                 }
@@ -639,5 +642,45 @@ public abstract class Engine extends Activity implements Runnable, View.OnTouchL
      */
     protected int getSpriteGroupSize() {
         return e_sprite_group.size();
+    }
+
+    protected int getRecycleGroupSize() {
+        return e_spirte_recycle_group.size();
+    }
+
+    protected void addToRecycleGroup(BaseSub baseSub) {
+        e_spirte_recycle_group.add(baseSub);
+    }
+
+    protected void removeFromRecycleGroup(int index) {
+        e_spirte_recycle_group.remove(index);
+    }
+
+    protected void removeFromRecycleGroup(BaseSub baseSub) {
+        e_spirte_recycle_group.remove(baseSub);
+    }
+
+    protected boolean isRecycleGroupEmpty() {
+        return e_spirte_recycle_group.isEmpty();
+    }
+
+    protected BaseSub recycleSubFromGroup(int id) {
+        for (BaseSub baseSub : e_spirte_recycle_group) {
+            if (baseSub.getIdentifier() == id) {
+                return baseSub;
+            }
+        }
+        return null;
+    }
+
+    protected int getTypeSizeFromRecycleGroup(int id) {
+        int num = 0;
+        for (BaseSub baseSub : e_spirte_recycle_group) {
+            if (baseSub.getIdentifier() == id) {
+                num++;
+            }
+        }
+        Log.e("num" + num, "id" + id);
+        return num;
     }
 }

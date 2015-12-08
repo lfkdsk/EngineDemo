@@ -30,4 +30,7 @@ public abstract class BaseSub {
     public abstract RectF getBounds();
 
     public abstract int getIdentifier();
+
+    public abstract void setAlive(boolean s_alive);
+
 }

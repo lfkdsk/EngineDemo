@@ -1,7 +1,6 @@
 package com.lfk.justweengine.Sprite;
 
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
@@ -232,9 +231,6 @@ public class BaseSprite extends BaseSub {
             int h = (int) (s_height * s_scale.y);
             Rect s_dst = new Rect(x, y, x + w, y + h);
             s_paint.setAlpha(s_alpha);
-            s_paint.setColor(Color.WHITE);
-            s_paint.setStyle(Paint.Style.STROKE);
-            s_canvas.drawRect(getBounds(), s_paint);
             s_canvas.drawBitmap(s_texture.getBitmap(),
                     s_frame_rect.get(s_frame),
                     s_dst, s_paint);
@@ -483,22 +479,22 @@ public class BaseSprite extends BaseSub {
     /**
      * stop Animation
      */
-    public void stopAllAnimation() {
+    public void clearAllAnimation() {
         if (animList != null)
             animList.clear();
     }
 
-    public void stopAllFixedAnimation() {
+    public void clearAllFixedAnimation() {
         if (animMap != null)
             animMap.clear();
     }
 
-    public void stopAnimation(int position) {
+    public void clearAnimation(int position) {
         if (animList != null)
             animList.remove(position);
     }
 
-    public void stopFixedAnimation(String name) {
+    public void clearFixedAnimation(String name) {
         if (animMap != null)
             animMap.remove(name);
     }
