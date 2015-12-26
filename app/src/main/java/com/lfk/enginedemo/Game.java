@@ -12,7 +12,7 @@ import android.view.MotionEvent;
 import com.lfk.justweengine.Anim.FrameAnimation;
 import com.lfk.justweengine.Anim.MoveAnimation;
 import com.lfk.justweengine.Anim.VelocityAnimation;
-import com.lfk.justweengine.Engine.BaseSub;
+import com.lfk.justweengine.Sprite.BaseSub;
 import com.lfk.justweengine.Engine.Engine;
 import com.lfk.justweengine.Engine.GameTextPrinter;
 import com.lfk.justweengine.Engine.GameTexture;
