@@ -12,13 +12,13 @@ import android.view.MotionEvent;
 import com.lfk.justweengine.Anim.FrameAnimation;
 import com.lfk.justweengine.Anim.MoveAnimation;
 import com.lfk.justweengine.Anim.VelocityAnimation;
-import com.lfk.justweengine.Sprite.BaseSub;
 import com.lfk.justweengine.Engine.Engine;
 import com.lfk.justweengine.Engine.GameTextPrinter;
 import com.lfk.justweengine.Engine.GameTexture;
 import com.lfk.justweengine.Engine.GameTimer;
 import com.lfk.justweengine.Info.UIdefaultData;
 import com.lfk.justweengine.Sprite.BaseSprite;
+import com.lfk.justweengine.Sprite.BaseSub;
 import com.lfk.justweengine.Sprite.FrameType;
 
 import java.util.Random;
@@ -113,8 +113,7 @@ public class Game extends Engine {
     @Override
     public void draw() {
         canvas = super.getCanvas();
-        Rect dest = new Rect(0, 0, UIdefaultData.screenWidth, UIdefaultData.screenHeight);
-        canvas.drawBitmap(backGround2X, bg_rect, dest, paint);
+        canvas.drawBitmap(backGround2X, bg_rect, bg_rect, paint);
         printer.setCanvas(canvas);
         printer.drawText("Engine demo", 10, 20);
     }
