@@ -12,3 +12,7 @@ demo with [JustWeEngine](https://github.com/lfkdsk/JustWeEngine)
 
 ## 简单做的Demo  
 ![demo](https://github.com/lfkdsk/EngineDemo/blob/master/arts/demo.png)
+
+## 源码分析
+
+#### [源码分析](flyinfo.md)
